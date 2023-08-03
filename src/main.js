@@ -3,6 +3,7 @@ import home from './components/home.js';
 import login from './components/login.js';
 import error from './components/error.js';
 import register from './components/register.js';
+import feed from './components/feed.js';
 
 const root = document.getElementById('root');
 
@@ -11,6 +12,7 @@ const routes = [
     { path: '/login', component: login },
     { path: '/error', component: error },
     { path: '/register', component: register },
+    { path: '/feed', component: feed},
 ];
 
 const defaultRoute = '/';
