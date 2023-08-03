@@ -1,8 +1,11 @@
 //Create an app in firebase
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js';
-import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js';
-import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { initializeApp } from 'firebase/app';
+//'https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js'
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, } from 'firebase/auth';
+//'https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js';
+import { getFirestore } from 'firebase/firestore';
+//'https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js'
+//import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 const firebaseApp = initializeApp({
     apiKey: "AIzaSyAbN7KpqnNUL5sYV3vhTNsjEoE82BoeKn8",
@@ -14,6 +17,7 @@ const firebaseApp = initializeApp({
     measurementId: "G-12FDLTCW02"
 
 });
+
 const auth = getAuth();
 const db = getFirestore();
 
@@ -30,4 +34,8 @@ export {
     auth,
     db,
     firebaseApp,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    sendEmailVerification,
+    sendPasswordResetEmail,
 }

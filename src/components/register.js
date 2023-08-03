@@ -1,9 +1,11 @@
 function register(navigateTo){
+    //Main container section
     const section = document.createElement('section');
     section.style.display = 'flex';
     section.style.justifyContent = 'center';
     section.style.flexDirection = 'column';
 
+    //Header
     const backArrow = document.createElement('i');
     backArrow.setAttribute('class', 'fa-solid fa-chevron-left');
     backArrow.addEventListener('click', () => {
@@ -14,6 +16,13 @@ function register(navigateTo){
     logo.setAttribute('src', './assets/logo TravelTribe.png');
     logo.classList.add('logo');
 
+    const header = document.createElement('header');
+    header.style.display = 'flex';
+    header.style.justifyContent = 'center';
+    header.style.flexDirection = 'column';
+    header.append(backArrow, logo);
+
+    //Register form container
     const email = document.createElement('h4');
     email.textContent = 'Email:';
 
@@ -36,20 +45,14 @@ function register(navigateTo){
     signUpBtn.textContent = 'Sign Up';
     signUpBtn.style.display = 'block';
 
-    const message3 = document.createElement('p');
-    message3.textContent = 'Not a member?';
+    //Agregar Sign up con google
 
-    const signUpLink = document.createElement('a');
-    signUpLink.setAttribute('href', '/register');
-    signUpLink.textContent = 'Sign Up Here';
-
-    const signUpDiv = document.createElement('div');
-    signUpDiv.append(message3, signUpLink);
-    signUpDiv.style.display = 'flex';
-    signUpDiv.style.flexWrap = 'wrap';
+    const signUpForm = document.createElement('form');
+    signUpForm.classList.add('login-view');
+    signUpForm.append(email, emailInput, password, passwordInput, confirmPassword, confirmPasswordInput, signUpBtn);
     
 
-    section.append(backArrow, logo, email, emailInput, password, passwordInput, confirmPassword, confirmPasswordInput, signUpBtn);
+    section.append(header, signUpForm);
 
     return section;
 };
