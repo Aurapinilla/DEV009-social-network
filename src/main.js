@@ -10,9 +10,9 @@ const root = document.getElementById('root');
 const routes = [
     { path: '/', component: home },
     { path: '/login', component: login },
-    { path: '/error', component: error },
     { path: '/register', component: register },
-    { path: '/feed', component: feed},
+    { path: '/feed', component: feed },
+    { path: '/error', component: error },
 ];
 
 const defaultRoute = '/';
@@ -40,7 +40,6 @@ function navigateTo(hash) {
     }
 };
 
-console.log('Configurando window.onpopstate');
 window.onpopstate = () => {
     console.log('Hubo un cambio');
     navigateTo(window.location.pathname);

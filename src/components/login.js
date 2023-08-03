@@ -1,4 +1,5 @@
 import { doc } from "firebase/firestore";
+import { signIn } from '../lib/index'
 
 function login(navigateTo){
     //Main container section
@@ -46,6 +47,18 @@ function login(navigateTo){
     const loginForm = document.createElement('form');
     loginForm.classList.add('login-view');
     loginForm.append(email, emailInput, password, passwordInput, loginBtn);
+
+
+    // Submit login form
+    loginForm.addEventListener('submit', (data) => {
+        data.preventDefault();
+        const email = emailInput.value;
+        const password = passwordInput.value;
+
+        signIn(email, password);
+        navigateTo('/feed');
+    });
+
 
     //Navigation to Sign Up
     const message3 = document.createElement('p');

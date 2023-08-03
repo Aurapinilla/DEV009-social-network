@@ -75,6 +75,7 @@ function register(navigateTo) {
     signUpForm.classList.add('login-view');
     signUpForm.append(title, nameU, nameImput, userName, userImput, email, emailInput, password, passwordInput, confirmPassword, confirmPasswordInput, signUpBtn);
 
+    //Submit registration form
     signUpForm.addEventListener('submit', (data) => {
         data.preventDefault();
         const name = nameImput.value;
@@ -94,7 +95,7 @@ function register(navigateTo) {
         }
         else {
             newUser(name, userName, email, password);
-            //navigateTo('/feed');
+            navigateTo('/feed');
         }
     });
 
