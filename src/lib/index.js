@@ -25,6 +25,7 @@ function newUser(name, userName, email, password) {
       const errorMessage = error.message;
       console.error(errorCode + errorMessage);
     });
+    //Debe generar el error y no permitir registro y login si el email o usuario ya existen
 };
 
 function signIn(email, password) {

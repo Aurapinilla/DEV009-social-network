@@ -1,10 +1,7 @@
 function home(navigateTo) {
     //Main container section
     const section = document.createElement('section');
-    section.style.display = 'flex';
-    section.style.justifyContent = 'center';
-    section.style.flexDirection = 'column';
-
+    section.classList.add('home-container');
     //header
     const logo = document.createElement('img');
     logo.setAttribute('src', './assets/logo TravelTribe.png');
@@ -14,19 +11,26 @@ function home(navigateTo) {
     header.style.display = 'flex';
     header.style.justifyContent = 'center';
     header.appendChild(logo);
+    header.classList.add('header');
 
     //Rest of content - Login Navigation
     const message1 = document.createElement('h2');
-    message1.textContent = 'Connect with travelers all over the world!';
+    const span = document.createElement('span');
+    span.textContent = 'all over the world!';
+    span.style.textDecoration = 'underline';
+    message1.innerHTML = `Connect with travelers <br><span style="text-decoration: underline">${span.textContent}</span>`;
+    message1.classList.add('mess1');
 
     const message2 = document.createElement('h3');
     message2.textContent = 'Get started with TravelTribe!';
+    message2.classList.add('mess2');
 
     const loginBtn = document.createElement('button');
     loginBtn.textContent = 'Login';
-    loginBtn.addEventListener('click', () =>{
+    loginBtn.addEventListener('click', () => {
         navigateTo('/login');
     });
+    loginBtn.classList.add('login-btn');
 
     //Link to Sign up
     const message3 = document.createElement('p');
@@ -38,10 +42,14 @@ function home(navigateTo) {
 
     const signUpDiv = document.createElement('div');
     signUpDiv.append(message3, signUpLink);
-    signUpDiv.style.display = 'flex';
-    signUpDiv.style.flexWrap = 'wrap';
+    signUpDiv.classList.add('sign-upDiv');
 
-    section.append(header, message1, message2, loginBtn, signUpDiv);
+    const content = document.createElement('div');
+    content.append(message1, message2, loginBtn, signUpDiv)
+    content.classList.add('home-content');
+
+
+    section.append(header, content);
 
     return section;
 }
