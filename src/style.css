@@ -18,18 +18,19 @@ body {
 
 .header-login .logo,
 .header-login .back-arrow {
-    margin: 20px;
+    margin: 10px;
 }
 
 .back-arrow {
     align-self: self-start;
+    cursor: pointer;
 }
 
 .header-login {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 5vh;
+    margin-top: 20px;
 }
 
 /*Only for login and register*/
@@ -53,7 +54,7 @@ body {
 .home-content .mess1 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
-    font-size: 4.5vw;
+    font-size: 2.5vh;
 }
 
 .home-content .mess2 {
@@ -65,12 +66,13 @@ body {
 }
 
 /*Login Form*/
-.login-form, .signup-form{
+.login-form,
+.signup-form {
     padding-top: 40px;
     padding-bottom: 40px;
     border-radius: 38px;
     margin-top: 5vh;
-    gap: 40px;
+    gap: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -81,7 +83,10 @@ body {
 
 .signup-title {
     font-weight: lighter;
+    font-size: 20px;
+    margin-bottom: 0px;
 }
+
 .signup-form {
     padding-top: 10px;
     padding-bottom: 20px;
@@ -93,8 +98,7 @@ body {
 .user,
 .emaildiv,
 .password,
-.passconfirm
-{
+.passconfirm {
     width: 250px;
     font-family: 'Open Sans', sans-serif;
     text-align: left;
@@ -102,6 +106,7 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 .nameU {
     margin-top: -10px;
     width: 250px;
@@ -146,13 +151,17 @@ body {
     margin-top: 10px;
     border-radius: 8px;
     border-width: 1px;
+    cursor: pointer;
 }
+
 .logo-google {
     max-width: 26px;
     max-height: 26px;
 }
 
-.login-btn, .loginBtn, .signupBtn{
+.login-btn,
+.loginBtn,
+.signupBtn {
     padding: 2px;
     font-family: 'Open Sans', sans-serif;
     font-weight: 800;
@@ -169,13 +178,14 @@ body {
     border-color: aliceblue;
     margin-top: 10px;
     margin-bottom: 0px;
+    cursor: pointer;
 }
 
-.loginBtn, .signupBtn {
+.loginBtn,
+.signupBtn {
     color: #FFFFFF;
-    background-color:#85C2EE;
+    background-color: #85C2EE;
 }
-
 
 .sign-upDiv {
     font-family: 'Open Sans', sans-serif;
@@ -187,17 +197,87 @@ body {
     gap: 10px;
 }
 
-.login-Div {
+.login-Div, .signUp-Btns {
     display: flex;
     flex-direction: column;
-    
+    align-items: center;
+    justify-content: center;
+
 }
 
-/* Estilos para pantallas pequeñas */
+.signUp-Btns {
+    margin-top: -10px;
+}
+
+
+
+/* Mobil */
 @media (max-width: 480px) {
     .logo {
         margin-top: 20vh;
         max-width: 60vw;
     }
 
+}
+
+/*Desktop*/
+@media (min-width: 1024px) {
+    .logo {
+        width: 400px;
+    }
+
+    .signup-title {
+        font-size: 28px;
+    }
+
+    .home-content .mess1 {
+        font-size: 30px;
+    }
+
+    .home-content .mess2 {
+        font-size: 25px;
+
+    }
+
+    .home-content {
+        margin-top: 5%;
+    }
+
+    .login-btn,
+    .loginBtn,
+    .signupBtn {
+        font-size: 17px;
+    }
+
+    .sign-upDiv {
+        font-size: 15px;
+        gap: 10px;
+    }
+
+    .nameU,
+    .user,
+    .emaildiv,
+    .password,
+    .passconfirm {
+        font-size: 16px;
+    }
+
+    .login-form,
+    .signup-form {
+        margin-left: 700px;
+        margin-right: 700px;
+        gap: 40px;
+    }
+
+    .back-arrow {
+        padding-left: 170px;
+    }
+
+    .header-login {
+        margin-top: 20px;
+    }
+
+    .signUp-Btns {
+        margin-top: -30px;
+    }
 }

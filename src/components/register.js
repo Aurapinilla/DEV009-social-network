@@ -103,9 +103,13 @@ function register(navigateTo) {
             });
     });
 
+    const signUpBtns = document.createElement('div');
+    signUpBtns.append(signUpBtn, googleDiv);
+    signUpBtns.classList.add('signUp-Btns')
+
     const signUpForm = document.createElement('form');
     signUpForm.classList.add('signup-form');
-    signUpForm.append(title, nameDiv, userDiv, emailDiv, passwordDiv, passconfirmDiv, signUpBtn, googleDiv);
+    signUpForm.append(title, nameDiv, userDiv, emailDiv, passwordDiv, passconfirmDiv, signUpBtns);
 
     //Submit registration form
     signUpForm.addEventListener('submit', (data) => {
