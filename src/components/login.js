@@ -94,18 +94,23 @@ function login(navigateTo) {
     // Submit login form
     loginForm.addEventListener('submit', (data) => {
         data.preventDefault();//Evitar que el formulario se envíe instantaneamente
-        const email = emailInput.value;
-        const password = passwordInput.value;
 
-        userLogin(email, password)
-            .then((signInResult) => {
-                if (signInResult) {
-                    navigateTo('/feed');
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        const googleButtonClicked = data.submitter === googleDiv;
+
+        if (!googleButtonClicked) {
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            userLogin(email, password)
+                .then((signInResult) => {
+                    if (signInResult) {
+                        navigateTo('/feed');
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
     });
 
     section.append(header, loginForm);
