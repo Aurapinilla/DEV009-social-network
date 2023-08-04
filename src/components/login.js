@@ -1,5 +1,5 @@
 import { doc } from "firebase/firestore";
-import { signIn } from '../lib/index'
+import { userLogin } from '../lib/index'
 
 function login(navigateTo) {
     //Main container section
@@ -70,14 +70,22 @@ function login(navigateTo) {
     loginForm.classList.add('login-form');
     loginForm.append(emailDiv, passwordDiv, loginDiv);
 
+
     // Submit login form
     loginForm.addEventListener('submit', (data) => {
         data.preventDefault();
         const email = emailInput.value;
         const password = passwordInput.value;
 
-        signIn(email, password);
-        navigateTo('/feed');
+        userLogin(email, password)
+            .then((signInResult) => {
+                if (signInResult) {
+                    navigateTo('/feed'); 
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     });
 
     section.append(header, loginForm);
