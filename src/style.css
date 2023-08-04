@@ -1,7 +1,8 @@
 body {
+    background: #85C2EE;
     margin: 0;
     padding: 0;
-  }
+}
 
 .home-container {
     height: 100vh;
@@ -12,28 +13,31 @@ body {
 .header {
     display: flex;
     justify-content: center;
+
 }
 
+.header-login .logo,
+.header-login .back-arrow {
+    margin: 20px;
+}
+
+.back-arrow {
+    align-self: self-start;
+}
+
+.header-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5vh;
+}
+
+/*Only for login and register*/
 .logo {
     margin-top: 23vh;
     max-width: 600vw;
     max-height: 600vw;
 }
-
-
-
-/* Estilos para pantallas pequeñas */
-@media (max-width: 480px) {
-    .logo {
-        margin-top: 20vh;
-        max-width: 60vw;
-    }
-    .home-content .login-btn {
-        max-width: 60vw;
-        height: 10vw;
-    }
-}
-
 
 .home-content {
     margin-left: 20%;
@@ -60,19 +64,101 @@ body {
     margin-top: 80px;
 }
 
-.home-content .login-btn {
+/*Login Form*/
+.login-form, .signup-form{
+    padding-top: 40px;
+    padding-bottom: 40px;
+    border-radius: 38px;
+    margin-top: 5vh;
+    gap: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 10%;
+    margin-right: 10%;
+    background: #FFFFFF;
+}
+
+.signup-title {
+    font-weight: lighter;
+}
+.signup-form {
+    padding-top: 10px;
+    padding-bottom: 20px;
+    margin-top: 3vh;
+    gap: 18px;
+}
+
+.nameU,
+.user,
+.emaildiv,
+.password,
+.passconfirm
+{
+    width: 250px;
+    font-family: 'Open Sans', sans-serif;
+    text-align: left;
+    font-size: 3.5vw;
+    display: flex;
+    flex-direction: column;
+}
+.nameU {
+    margin-top: -10px;
+    width: 250px;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.nameU input,
+.user input,
+.emaildiv input,
+.password input,
+.passconfirm input {
+    border-width: 0px;
+    height: 20px;
+    background-color: #e4e4e4;
+}
+
+.nameU h4,
+.name input,
+.user h4,
+.user input,
+.password h4,
+.password input,
+.passconfirm h4,
+.passconfirm input {
+    margin: 5px;
+}
+
+.emaildiv h4,
+.emaildiv input {
+    margin: 5px;
+}
+
+.login-btn, .loginBtn, .signupBtn{
+    padding: 2px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    font-size: 3.5vw;
+    color: #2F4554;
     background-color: #FFFFFF;
     align-self: center;
     width: 210px;
     max-width: 40vw;
-    height: 43px;
-    min-height: 43px;
+    height: 35px;
+    max-height: 35px;
     border-radius: 8px;
     border-width: 1px;
     border-color: aliceblue;
-    align-self: center;
     margin-top: 10px;
+    margin-bottom: 0px;
 }
+
+.loginBtn, .signupBtn {
+    color: #FFFFFF;
+    background-color:#85C2EE;
+}
+
 
 .sign-upDiv {
     font-family: 'Open Sans', sans-serif;
@@ -82,4 +168,14 @@ body {
     justify-content: center;
     align-items: center;
     gap: 10px;
+}
+
+
+/* Estilos para pantallas pequeñas */
+@media (max-width: 480px) {
+    .logo {
+        margin-top: 20vh;
+        max-width: 60vw;
+    }
+
 }

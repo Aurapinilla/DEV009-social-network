@@ -3,13 +3,12 @@ import { newUser } from '../lib/index'
 function register(navigateTo) {
     //Main container section
     const section = document.createElement('section');
-    section.style.display = 'flex';
-    section.style.justifyContent = 'center';
-    section.style.flexDirection = 'column';
+    section.classList.add('home-container');
 
     //Header
     const backArrow = document.createElement('i');
     backArrow.setAttribute('class', 'fa-solid fa-chevron-left');
+    backArrow.classList.add('back-arrow');
     backArrow.addEventListener('click', () => {
         navigateTo('/');
     });
@@ -19,61 +18,75 @@ function register(navigateTo) {
     logo.classList.add('logo');
 
     const header = document.createElement('header');
-    header.style.display = 'flex';
-    header.style.justifyContent = 'center';
-    header.style.flexDirection = 'column';
     header.append(backArrow, logo);
+    header.classList.add('header-login');
 
     //Register form container
     const title = document.createElement('h2');
     title.textContent = 'Create your account!';
+    title.classList.add('signup-title');
 
     const nameU = document.createElement('h4');
     nameU.textContent = 'Name:'
-
     const nameImput = document.createElement('input');
     nameImput.placeholder = 'Ex: Jhon Evans';
     nameImput.type = 'text';
 
+    const nameDiv = document.createElement('div');
+    nameDiv.append(nameU, nameImput);
+    nameDiv.classList.add('nameU');
+
     const userName = document.createElement('h4');
     userName.textContent = 'User:';
-
     const userImput = document.createElement('input');
     userImput.placeholder = 'Type your user';
     userImput.type = 'text';
 
+    const userDiv = document.createElement('div');
+    userDiv.append(userName, userImput);
+    userDiv.classList.add('user');
+
     const email = document.createElement('h4');
     email.textContent = 'Email:';
-
     const emailInput = document.createElement('input');
     emailInput.placeholder = 'email@example.com';
     emailInput.type = 'email';
 
+    const emailDiv = document.createElement('div');
+    emailDiv.append(email, emailInput);
+    emailDiv.classList.add('emaildiv');
+
     const password = document.createElement('h4');
     password.textContent = 'Create Password:';
-
     const passwordInput = document.createElement('input');
     passwordInput.placeholder = '**********';
     passwordInput.type = 'password';
 
+    const passwordDiv = document.createElement('div');
+    passwordDiv.append(password, passwordInput);
+    passwordDiv.classList.add('password');
+
     const confirmPassword = document.createElement('h4');
     confirmPassword.textContent = 'Confirm Password:';
-
     const confirmPasswordInput = document.createElement('input');
     confirmPasswordInput.placeholder = '**********';
     confirmPasswordInput.type = 'password';
+
+    const passconfirmDiv = document.createElement('div');
+    passconfirmDiv.append(confirmPassword, confirmPasswordInput);
+    passconfirmDiv.classList.add('passconfirm');
 
     //Sign Up Button
     const signUpBtn = document.createElement('button');
     signUpBtn.textContent = 'Sign Up';
     signUpBtn.type = 'submit';
-    signUpBtn.style.display = 'block';
+    signUpBtn.classList.add('signupBtn');
 
     //Agregar Sign up con google
 
     const signUpForm = document.createElement('form');
-    signUpForm.classList.add('login-view');
-    signUpForm.append(title, nameU, nameImput, userName, userImput, email, emailInput, password, passwordInput, confirmPassword, confirmPasswordInput, signUpBtn);
+    signUpForm.classList.add('signup-form');
+    signUpForm.append(title, nameDiv, userDiv, emailDiv, passwordDiv, passconfirmDiv, signUpBtn);
 
     //Submit registration form
     signUpForm.addEventListener('submit', (data) => {
@@ -84,9 +97,9 @@ function register(navigateTo) {
         const password = passwordInput.value;
         const passwordConfirm = confirmPasswordInput.value;
 
-        if (userName.includes(' ')){
+        if (userName.includes(' ')) {
             window.alert('User cannot have spaces.');
-        } 
+        }
         else if (password.length < 6) {
             window.alert('Password should be at least 6 characters.')
         }

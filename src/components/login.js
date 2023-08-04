@@ -1,16 +1,15 @@
 import { doc } from "firebase/firestore";
 import { signIn } from '../lib/index'
 
-function login(navigateTo){
+function login(navigateTo) {
     //Main container section
     const section = document.createElement('section');
-    section.style.display = 'flex';
-    section.style.justifyContent = 'center';
-    section.style.flexDirection = 'column';
+    section.classList.add('home-container');
 
     //header container
     const backArrow = document.createElement('i');
     backArrow.setAttribute('class', 'fa-solid fa-chevron-left');
+    backArrow.classList.add('back-arrow');
     backArrow.addEventListener('click', () => {
         navigateTo('/');
     });
@@ -20,17 +19,18 @@ function login(navigateTo){
     logo.classList.add('logo');
 
     const header = document.createElement('header');
-    header.style.display = 'flex';
-    header.style.justifyContent = 'center';
-    header.style.flexDirection = 'column';
     header.append(backArrow, logo);
+    header.classList.add('header-login');
 
     //Login form container
     const email = document.createElement('h4');
     email.textContent = 'Email:';
-
     const emailInput = document.createElement('input');
     emailInput.placeholder = 'email@example.com';
+
+    const emailDiv = document.createElement('div');
+    emailDiv.append(email, emailInput);
+    emailDiv.classList.add('emaildiv');
 
     const password = document.createElement('h4');
     password.textContent = 'Password:';
@@ -38,26 +38,16 @@ function login(navigateTo){
     const passwordInput = document.createElement('input');
     passwordInput.placeholder = '**********';
 
+    const passwordDiv = document.createElement('div');
+    passwordDiv.append(password, passwordInput);
+    passwordDiv.classList.add('password');
+
     const loginBtn = document.createElement('button');
     loginBtn.textContent = 'Login';
-    loginBtn.style.display = 'block';
+    loginBtn.type = 'submit';
+    loginBtn.classList.add('loginBtn');
 
     //Agregar Login con google
-
-    const loginForm = document.createElement('form');
-    loginForm.classList.add('login-view');
-    loginForm.append(email, emailInput, password, passwordInput, loginBtn);
-
-
-    // Submit login form
-    loginForm.addEventListener('submit', (data) => {
-        data.preventDefault();
-        const email = emailInput.value;
-        const password = passwordInput.value;
-
-        signIn(email, password);
-        navigateTo('/feed');
-    });
 
 
     //Navigation to Sign Up
@@ -70,11 +60,27 @@ function login(navigateTo){
 
     const signUpDiv = document.createElement('div');
     signUpDiv.append(message3, signUpLink);
-    signUpDiv.style.display = 'flex';
-    signUpDiv.style.flexWrap = 'wrap';
-    
+    signUpDiv.classList.add('sign-upDiv');
 
-    section.append(header, loginForm, signUpDiv);
+    const loginDiv = document.createElement('div');
+    loginDiv.append(loginBtn, signUpDiv);
+    loginDiv.classList.add('login-Div');
+
+    const loginForm = document.createElement('form');
+    loginForm.classList.add('login-form');
+    loginForm.append(emailDiv, passwordDiv, loginDiv);
+
+    // Submit login form
+    loginForm.addEventListener('submit', (data) => {
+        data.preventDefault();
+        const email = emailInput.value;
+        const password = passwordInput.value;
+
+        signIn(email, password);
+        navigateTo('/feed');
+    });
+
+    section.append(header, loginForm);
 
     return section;
 };
