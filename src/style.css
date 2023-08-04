@@ -135,6 +135,23 @@ body {
     margin: 5px;
 }
 
+.googleBtn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 180px;
+    height: 35px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border-width: 1px;
+}
+.logo-google {
+    max-width: 26px;
+    max-height: 26px;
+}
+
 .login-btn, .loginBtn, .signupBtn{
     padding: 2px;
     font-family: 'Open Sans', sans-serif;
@@ -143,7 +160,7 @@ body {
     color: #2F4554;
     background-color: #FFFFFF;
     align-self: center;
-    width: 210px;
+    width: 180px;
     max-width: 40vw;
     height: 35px;
     max-height: 35px;
@@ -170,6 +187,11 @@ body {
     gap: 10px;
 }
 
+.login-Div {
+    display: flex;
+    flex-direction: column;
+    
+}
 
 /* Estilos para pantallas pequeñas */
 @media (max-width: 480px) {

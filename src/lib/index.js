@@ -9,6 +9,8 @@ import {
   signInWithEmailAndPassword,
   sendEmailVerification,
   sendPasswordResetEmail,
+  GoogleAuthProvider,
+  signInWithPopup
 }
   from '../helpers/firebase-init';
 
@@ -19,7 +21,7 @@ function newUser(name, user, email, password) {
         const user = userCredential.user;
         console.log(user); // Signed in
 
-      resolve (sendEmailVerification(auth.currentUser));
+        resolve(sendEmailVerification(auth.currentUser));
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -60,7 +62,14 @@ async function userLogin(email, password) {
   }
 };
 
+
+function googleAuth() {
+  const googleProvider = new GoogleAuthProvider();
+  return signInWithPopup(auth, googleProvider);
+};
+
 export {
   newUser,
   userLogin,
+  googleAuth
 }

@@ -1,5 +1,5 @@
 import { doc } from "firebase/firestore";
-import { userLogin } from '../lib/index'
+import { userLogin, googleAuth } from '../lib/index'
 
 function login(navigateTo) {
     //Main container section
@@ -48,7 +48,26 @@ function login(navigateTo) {
     loginBtn.type = 'submit';
     loginBtn.classList.add('loginBtn');
 
-    //Agregar Login con google
+    //Google Auth
+    const googleLogo = document.createElement('img');
+    googleLogo.setAttribute('src', './assets/google.png');
+    googleLogo.classList.add('logo-google');
+    const googleLog = document.createElement('p');
+    googleLog.textContent = 'Sign in with Google';
+    googleLog.classList.add('google-login');
+    const googleDiv = document.createElement('button');
+    googleDiv.append(googleLogo, googleLog);
+    googleDiv.classList.add('googleBtn');
+
+    googleDiv.addEventListener('click', () => {
+        googleAuth()
+            .then(() => {
+                navigateTo('/feed');
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    });
 
 
     //Navigation to Sign Up
@@ -64,7 +83,7 @@ function login(navigateTo) {
     signUpDiv.classList.add('sign-upDiv');
 
     const loginDiv = document.createElement('div');
-    loginDiv.append(loginBtn, signUpDiv);
+    loginDiv.append(loginBtn, googleDiv, signUpDiv);
     loginDiv.classList.add('login-Div');
 
     const loginForm = document.createElement('form');
@@ -81,7 +100,7 @@ function login(navigateTo) {
         userLogin(email, password)
             .then((signInResult) => {
                 if (signInResult) {
-                    navigateTo('/feed'); 
+                    navigateTo('/feed');
                 }
             })
             .catch((error) => {
