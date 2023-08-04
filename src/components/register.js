@@ -107,8 +107,15 @@ function register(navigateTo) {
             window.alert('Password fields must be the same.');
         }
         else {
-            newUser(name, userName, email, password);
-            navigateTo('/feed');
+            newUser(name, userName, email, password)
+                .then(() => {
+                    // Se muestra la alerta y luego se redirige a la página de inicio
+                    window.alert('Email verification sent to ' + email);
+                    navigateTo('/');
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         }
     });
 

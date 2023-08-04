@@ -1,7 +1,7 @@
 //Create an app in firebase
 import { initializeApp } from 'firebase/app';
 //'https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js'
-import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification } from 'firebase/auth';
 //'https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js';
 import { getFirestore } from 'firebase/firestore';
 //'https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js'

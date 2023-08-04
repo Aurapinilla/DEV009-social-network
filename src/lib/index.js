@@ -12,30 +12,31 @@ import {
 }
   from '../helpers/firebase-init';
 
-function newUser(name, userName, email, password) {
-  //PROMESA PARA RECHAZAR SI YA EXISTE EL EMAIL Y/O USUARIO
+function newUser(name, user, email, password) {
   return new Promise((resolve, reject) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);//Signed in
+        console.log(user); // Signed in
 
-        return sendEmailVerification(auth.currentUser);
+      resolve (sendEmailVerification(auth.currentUser));
       })
-      .then(window.alert('Email verification sent to ' + email))
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error(errorCode + errorMessage);
+
+        if (errorCode === AuthErrorCodes.EMAIL_EXISTS) {
+          window.alert('This email is already registered.');
+        }
+
+        reject(error);
       });
-  })
-  //Debe generar el error y no permitir registro y login si el email o usuario ya existen
+  });
 };
 
 
 async function userLogin(email, password) {
-  let errorCode, errorMessage; // Definir las variables al inicio
-
   try {
     const user = auth.currentUser;
     if (!user.emailVerified) {
@@ -47,8 +48,8 @@ async function userLogin(email, password) {
       return true;
     }
   } catch (error) {
-    errorCode = error.code;
-    errorMessage = error.message;
+    const errorCode = error.code;
+    const errorMessage = error.message;
     console.error(errorCode + errorMessage);
 
     if (errorCode === AuthErrorCodes.INVALID_PASSWORD) {

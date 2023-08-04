@@ -37,6 +37,7 @@ function login(navigateTo) {
 
     const passwordInput = document.createElement('input');
     passwordInput.placeholder = '**********';
+    passwordInput.type = 'password';
 
     const passwordDiv = document.createElement('div');
     passwordDiv.append(password, passwordInput);
@@ -73,7 +74,7 @@ function login(navigateTo) {
 
     // Submit login form
     loginForm.addEventListener('submit', (data) => {
-        data.preventDefault();
+        data.preventDefault();//Evitar que el formulario se envíe instantaneamente
         const email = emailInput.value;
         const password = passwordInput.value;
 
