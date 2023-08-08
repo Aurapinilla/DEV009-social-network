@@ -3,18 +3,18 @@ import { AuthErrorCodes } from 'firebase/auth';
 
 import {
   auth,
-  db,
-  firebaseApp,
+  // db,
+  // firebaseApp,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendEmailVerification,
-  sendPasswordResetEmail,
+  // sendPasswordResetEmail,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
 }
   from '../helpers/firebase-init';
 
-function newUser(name, user, email, password) {
+function newUser(name, userImput, email, password) {
   return new Promise((resolve, reject) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -35,14 +35,13 @@ function newUser(name, user, email, password) {
         reject(error);
       });
   });
-};
-
+}
 
 async function userLogin(email, password) {
   try {
     const user = auth.currentUser;
     if (!user.emailVerified) {
-      window.alert('Email has not been verified yet.');
+      window.alert('Email has not been verified yet. Please check you inbox.');
     } else {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const loggedInUser = userCredential.user;
@@ -62,14 +61,13 @@ async function userLogin(email, password) {
   }
 };
 
-
 function googleAuth() {
   const googleProvider = new GoogleAuthProvider();
   return signInWithPopup(auth, googleProvider);
-};
+}
 
 export {
   newUser,
   userLogin,
-  googleAuth
-}
+  googleAuth,
+};

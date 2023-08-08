@@ -1,122 +1,119 @@
-import { doc } from "firebase/firestore";
-import { userLogin, googleAuth } from '../lib/index'
+// import { doc } from "firebase/firestore";
+import { userLogin, googleAuth } from '../lib/index';
 
 function login(navigateTo) {
-    //Main container section
-    const section = document.createElement('section');
-    section.classList.add('home-container');
+  // Main container section
+  const section = document.createElement('section');
+  section.classList.add('home-container');
 
-    //header container
-    const backArrow = document.createElement('i');
-    backArrow.setAttribute('class', 'fa-solid fa-chevron-left');
-    backArrow.classList.add('back-arrow');
-    backArrow.addEventListener('click', () => {
-        navigateTo('/');
-    });
+  // header container
+  const backArrow = document.createElement('i');
+  backArrow.setAttribute('class', 'fa-solid fa-chevron-left');
+  backArrow.classList.add('back-arrow');
+  backArrow.addEventListener('click', () => {
+    navigateTo('/');
+  });
 
-    const logo = document.createElement('img');
-    logo.setAttribute('src', './assets/logo TravelTribe.png');
-    logo.classList.add('logo');
+  const logo = document.createElement('img');
+  logo.setAttribute('src', './assets/logo TravelTribe.png');
+  logo.classList.add('logo');
 
-    const header = document.createElement('header');
-    header.append(backArrow, logo);
-    header.classList.add('header-login');
+  const header = document.createElement('header');
+  header.append(backArrow, logo);
+  header.classList.add('header-login');
 
-    //Login form container
-    const email = document.createElement('h4');
-    email.textContent = 'Email:';
-    const emailInput = document.createElement('input');
-    emailInput.placeholder = 'email@example.com';
+  // Login form container
+  const email = document.createElement('h4');
+  email.textContent = 'Email:';
+  const emailInput = document.createElement('input');
+  emailInput.placeholder = 'email@example.com';
 
-    const emailDiv = document.createElement('div');
-    emailDiv.append(email, emailInput);
-    emailDiv.classList.add('emaildiv');
+  const emailDiv = document.createElement('div');
+  emailDiv.append(email, emailInput);
+  emailDiv.classList.add('emaildiv');
 
-    const password = document.createElement('h4');
-    password.textContent = 'Password:';
+  const password = document.createElement('h4');
+  password.textContent = 'Password:';
 
-    const passwordInput = document.createElement('input');
-    passwordInput.placeholder = '**********';
-    passwordInput.type = 'password';
+  const passwordInput = document.createElement('input');
+  passwordInput.placeholder = '**********';
+  passwordInput.type = 'password';
 
-    const passwordDiv = document.createElement('div');
-    passwordDiv.append(password, passwordInput);
-    passwordDiv.classList.add('password');
+  const passwordDiv = document.createElement('div');
+  passwordDiv.append(password, passwordInput);
+  passwordDiv.classList.add('password');
 
-    const loginBtn = document.createElement('button');
-    loginBtn.textContent = 'Login';
-    loginBtn.type = 'submit';
-    loginBtn.classList.add('loginBtn');
+  const loginBtn = document.createElement('button');
+  loginBtn.textContent = 'Login';
+  loginBtn.type = 'submit';
+  loginBtn.classList.add('loginBtn');
 
-    //Google Auth
-    const googleLogo = document.createElement('img');
-    googleLogo.setAttribute('src', './assets/google.png');
-    googleLogo.classList.add('logo-google');
-    const googleLog = document.createElement('p');
-    googleLog.textContent = 'Sign in with Google';
-    googleLog.classList.add('google-login');
-    const googleDiv = document.createElement('button');
-    googleDiv.append(googleLogo, googleLog);
-    googleDiv.classList.add('googleBtn');
+  // Google Auth
+  const googleLogo = document.createElement('img');
+  googleLogo.setAttribute('src', './assets/google.png');
+  googleLogo.classList.add('logo-google');
+  const googleLog = document.createElement('p');
+  googleLog.textContent = 'Sign in with Google';
+  googleLog.classList.add('google-login');
+  const googleDiv = document.createElement('button');
+  googleDiv.append(googleLogo, googleLog);
+  googleDiv.classList.add('googleBtn');
 
-    googleDiv.addEventListener('click', () => {
-        googleAuth()
-            .then(() => {
-                navigateTo('/feed');
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    });
+  googleDiv.addEventListener('click', () => {
+    googleAuth()
+      .then(() => {
+        navigateTo('/feed');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
 
+  // Navigation to Sign Up
+  const message3 = document.createElement('p');
+  message3.textContent = 'Not a member?';
 
-    //Navigation to Sign Up
-    const message3 = document.createElement('p');
-    message3.textContent = 'Not a member?';
+  const signUpLink = document.createElement('a');
+  signUpLink.setAttribute('href', '/register');
+  signUpLink.textContent = 'Sign Up Here';
 
-    const signUpLink = document.createElement('a');
-    signUpLink.setAttribute('href', '/register');
-    signUpLink.textContent = 'Sign Up Here';
+  const signUpDiv = document.createElement('div');
+  signUpDiv.append(message3, signUpLink);
+  signUpDiv.classList.add('sign-upDiv');
 
-    const signUpDiv = document.createElement('div');
-    signUpDiv.append(message3, signUpLink);
-    signUpDiv.classList.add('sign-upDiv');
+  const loginDiv = document.createElement('div');
+  loginDiv.append(loginBtn, googleDiv, signUpDiv);
+  loginDiv.classList.add('login-Div');
 
-    const loginDiv = document.createElement('div');
-    loginDiv.append(loginBtn, googleDiv, signUpDiv);
-    loginDiv.classList.add('login-Div');
+  const loginForm = document.createElement('form');
+  loginForm.classList.add('login-form');
+  loginForm.append(emailDiv, passwordDiv, loginDiv);
 
-    const loginForm = document.createElement('form');
-    loginForm.classList.add('login-form');
-    loginForm.append(emailDiv, passwordDiv, loginDiv);
+  // Submit login form
+  loginForm.addEventListener('submit', (data) => {
+    data.preventDefault();// Evitar que el formulario se envíe instantaneamente
 
+    const googleButtonClicked = data.submitter === googleDiv;
 
-    // Submit login form
-    loginForm.addEventListener('submit', (data) => {
-        data.preventDefault();//Evitar que el formulario se envíe instantaneamente
+    if (!googleButtonClicked) {
+      const emailImpt = emailInput.value;
+      const passCode = passwordInput.value;
 
-        const googleButtonClicked = data.submitter === googleDiv;
+      userLogin(emailImpt, passCode)
+        .then((signInResult) => {
+          if (signInResult) {
+            navigateTo('/feed');
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  });
 
-        if (!googleButtonClicked) {
-            const email = emailInput.value;
-            const password = passwordInput.value;
+  section.append(header, loginForm);
 
-            userLogin(email, password)
-                .then((signInResult) => {
-                    if (signInResult) {
-                        navigateTo('/feed');
-                    }
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-        }
-    });
-
-    section.append(header, loginForm);
-
-    return section;
-};
-
+  return section;
+}
 
 export default login;

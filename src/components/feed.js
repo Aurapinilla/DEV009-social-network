@@ -1,7 +1,7 @@
-function feed (navigateTo) {
-    const feed = document.createElement('h1');
-    feed.textContent = 'Welcome!'
-    return feed;
+function feed() {
+  const mainPage = document.createElement('h1');
+  mainPage.textContent = 'Welcome!';
+  return mainPage;
 }
 
 export default feed;
