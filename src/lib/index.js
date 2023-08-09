@@ -68,7 +68,6 @@ function userLogin(email, password) {
     })
     .catch((error) => {
       authErrors(error);
-      reject(error);
     });
 }
 
