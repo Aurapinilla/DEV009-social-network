@@ -14,6 +14,29 @@ import {
 }
   from '../helpers/firebase-init';
 
+function showMessage(message) {
+  messageContainer.innerText = message;
+  messageContainer.style.display = 'block';
+}
+  
+function hideMessage() {
+  messageContainer.style.display = 'none';
+}
+
+function authErrors(error) {
+  const errorCode = error.code;
+  
+  if (errorCode === AuthErrorCodes.EMAIL_EXISTS) {
+   showMessage('This email is already registered.');
+  } else if (errorCode === AuthErrorCodes.INVALID_PASSWORD) {
+    showMessage('Wrong password. Please try again.');
+  } else if (errorCode === AuthErrorCodes.INVALID_EMAIL) {
+    showMessage('Invalid email. Please type a valid email address.');
+  } else {
+    console.error(error);
+  }
+}
+
 function newUser(name, userImput, email, password) {
   return new Promise((resolve, reject) => {
     createUserWithEmailAndPassword(auth, email, password)
@@ -24,50 +47,59 @@ function newUser(name, userImput, email, password) {
         resolve(sendEmailVerification(auth.currentUser));
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(errorCode + errorMessage);
-
-        if (errorCode === AuthErrorCodes.EMAIL_EXISTS) {
-          window.alert('This email is already registered.');
-        }
-
+        authErrors(error);
         reject(error);
       });
   });
 }
 
-async function userLogin(email, password) {
-  try {
-    const user = auth.currentUser;
-    if (!user.emailVerified) {
-      window.alert('Email has not been verified yet. Please check you inbox.');
-    } else {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+function userLogin(email, password) {
+  return signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
       const loggedInUser = userCredential.user;
       console.log(loggedInUser);
+
+      if (!loggedInUser.emailVerified) {
+        showMessage('Email has not been verified yet. Please check your inbox.');
+        return false;
+      }
+
       return true;
-    }
-  } catch (error) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.error(errorCode + errorMessage);
-
-    if (errorCode === AuthErrorCodes.INVALID_PASSWORD) {
-      window.alert('Wrong password. Please try again.');
-    }
-
-    return false;
-  }
-};
+    })
+    .catch((error) => {
+      authErrors(error);
+      reject(error);
+    });
+}
 
 function googleAuth() {
   const googleProvider = new GoogleAuthProvider();
   return signInWithPopup(auth, googleProvider);
 }
 
+function logOut() {
+  return new Promise((resolve, reject) => {
+    auth.signOut()
+      .then(() => {
+        console.log('User signed out.');
+        resolve();
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(errorCode + errorMessage);
+
+        reject(error);
+      });
+  });
+}
+
 export {
   newUser,
   userLogin,
   googleAuth,
+  logOut,
+  showMessage,
+  hideMessage,
+  authErrors,
 };

@@ -3,7 +3,7 @@ import { initializeApp } from 'firebase/app';
 // 'https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js'
 import {
   getAuth,
-  onAuthStateChanged,
+  // onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -31,13 +31,13 @@ const auth = getAuth();
 const db = getFirestore();
 
 // Detect state of authentication
-onAuthStateChanged(auth, user => {
+/* onAuthStateChanged(auth, (user) => {
   if (user !== null) {
     console.log('Logged in!');
   } else {
     console.log('No user');
   }
-});
+}); */
 
 export {
   auth,
@@ -49,4 +49,4 @@ export {
   sendPasswordResetEmail,
   GoogleAuthProvider,
   signInWithPopup,
-}
+};

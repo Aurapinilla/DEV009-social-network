@@ -1,5 +1,5 @@
 // import { doc } from "firebase/firestore";
-import { userLogin, googleAuth } from '../lib/index';
+import { userLogin, googleAuth, authErrors, hideMessage } from '../lib/index';
 
 function login(navigateTo) {
   // Main container section
@@ -65,7 +65,7 @@ function login(navigateTo) {
         navigateTo('/feed');
       })
       .catch((error) => {
-        console.error(error);
+        authErrors(error);
       });
   });
 
@@ -89,11 +89,16 @@ function login(navigateTo) {
   loginForm.classList.add('login-form');
   loginForm.append(emailDiv, passwordDiv, loginDiv);
 
-  // Submit login form
-  loginForm.addEventListener('submit', (data) => {
-    data.preventDefault();// Evitar que el formulario se envíe instantaneamente
+  // Alert Messages
+  const messageContainer = document.createElement('div');
+  messageContainer.id = 'messageContainer';
+  messageContainer.classList.add('message-container');
 
-    const googleButtonClicked = data.submitter === googleDiv;
+  // Submit login form
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();// Evitar que el formulario se envíe instantaneamente
+
+    const googleButtonClicked = e.submitter === googleDiv;
 
     if (!googleButtonClicked) {
       const emailImpt = emailInput.value;
@@ -106,12 +111,17 @@ function login(navigateTo) {
           }
         })
         .catch((error) => {
-          console.error(error);
+          authErrors(error);
         });
     }
   });
 
-  section.append(header, loginForm);
+  // Hide Messages
+  document.addEventListener('click', () => {
+    hideMessage();
+  });
+
+  section.append(header, loginForm, messageContainer);
 
   return section;
 }

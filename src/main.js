@@ -40,7 +40,7 @@ function navigateTo(hash) {
 }
 
 window.onpopstate = () => {
-  console.log('Hubo un cambio');
+  // console.log('Hubo un cambio');
   navigateTo(window.location.pathname);
 };
 

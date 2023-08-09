@@ -22,6 +22,7 @@ body {
 }
 
 .back-arrow {
+    font-size: 20px;
     align-self: self-start;
     cursor: pointer;
 }
@@ -209,7 +210,82 @@ body {
     margin-top: -10px;
 }
 
+/*Alert Messages*/
+.message-container {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 15px;
+    width:70%;
+    font-size: 20px;
+    border: 2px solid black;
+    background-color: #FFFFFF;
+    color: red;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
 
+/* Feed */
+.main-container {
+    background-color: #FFFFFF;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.upperMenu {
+    background-color: #85C2EE;
+    display: flex;
+    justify-content: space-between;
+    align-items:last baseline;
+    height: 70px;
+}
+
+.logo-menu {
+    width: 150px;
+    margin-bottom: 10px;
+}
+
+.right-menu{
+    display: flex;
+    gap: 15px;
+    margin-right: 8px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.search-filter {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 460px;
+    align-self: center;
+    gap: 5px;
+}
+
+.filter-btn {
+    font-size: 12px;
+    width: min-content;
+    align-self: center;
+}
+
+
+.bottom-menu {
+    border-top: 1px solid rgb(101, 101, 101);
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.home-btn, .post-btn, .calendar-btn {
+    font-size: 20px;
+}
 
 /* Mobil */
 @media (max-width: 480px) {

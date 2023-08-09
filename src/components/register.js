@@ -1,4 +1,6 @@
-import { newUser, googleAuth } from '../lib/index';
+import {
+  newUser, googleAuth, authErrors, hideMessage, showMessage
+} from '../lib/index';
 
 function register(navigateTo) {
   // Main container section
@@ -27,7 +29,7 @@ function register(navigateTo) {
   title.classList.add('signup-title');
 
   const nameU = document.createElement('h4');
-  nameU.textContent = 'Name:'
+  nameU.textContent = 'Name:';
   const nameImput = document.createElement('input');
   nameImput.placeholder = 'Ex: Jhon Evans';
   nameImput.type = 'text';
@@ -99,7 +101,7 @@ function register(navigateTo) {
         navigateTo('/feed');
       })
       .catch((error) => {
-        console.error(error);
+        authErrors(error);
       });
   });
 
@@ -111,11 +113,16 @@ function register(navigateTo) {
   signUpForm.classList.add('signup-form');
   signUpForm.append(title, nameDiv, userDiv, emailDiv, passwordDiv, passconfirmDiv, signUpBtns);
 
-  // Submit registration form
-  signUpForm.addEventListener('submit', (data) => {
-    data.preventDefault();
+  // Alert Messages
+  const messageContainer = document.createElement('div');
+  messageContainer.id = 'messageContainer';
+  messageContainer.classList.add('message-container');
 
-    const googleButtonClicked = data.submitter === googleDiv;
+  // Submit registration form
+  signUpForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const googleButtonClicked = e.submitter === googleDiv;
 
     if (!googleButtonClicked) {
       const name = nameImput.value;
@@ -125,30 +132,33 @@ function register(navigateTo) {
       const passwordConfirmValue = confirmPasswordInput.value;
 
       if (userValue.includes(' ')) {
-        window.alert('User cannot have spaces.');
+        showMessage('User cannot have spaces.');
       } else if (passwordValue.length < 6) {
-        window.alert('Password should be at least 6 characters.');
+        showMessage('Password should be at least 6 characters.');
       } else if (passwordValue !== passwordConfirmValue) {
-        window.alert('Password fields must be the same.');
+        showMessage('Password fields must be the same.');
       } else {
         newUser(name, userValue, emailValue, passwordValue)
           .then(() => {
             // Se muestra la alerta y luego se redirige a la página de inicio
-            window.alert('Email verification sent to ' + emailValue);
+            showMessage(`Email verification sent to ${emailValue}`);
             navigateTo('/');
           })
           .catch((error) => {
-            console.error(error);
+            authErrors(error);
           });
       }
     }
   });
 
-  section.append(header, signUpForm);
+  // Hide Messages
+  document.addEventListener('click', () => {
+    hideMessage();
+  });
+
+  section.append(header, signUpForm, messageContainer);
 
   return section;
 }
-
-
 
 export default register;
