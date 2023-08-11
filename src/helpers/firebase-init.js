@@ -1,6 +1,6 @@
 // Create an app in firebase
 import { initializeApp } from 'firebase/app';
-// 'https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js'
+
 import {
   getAuth,
   // onAuthStateChanged,
@@ -11,11 +11,10 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from 'firebase/auth';
-// 'https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js';
-import { getFirestore } from 'firebase/firestore';
-// 'https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js'
-// import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+
+// Project Credentials
 const firebaseApp = initializeApp({
   apiKey: 'AIzaSyAbN7KpqnNUL5sYV3vhTNsjEoE82BoeKn8',
   authDomain: 'traveltribe-27207.firebaseapp.com',
@@ -39,6 +38,16 @@ const db = getFirestore();
   }
 }); */
 
+// Add users to FireStore
+function saveUsers(nameVal, userVal, emailVal, passwordVal) {
+  addDoc(collection(db, 'Users'), {
+    Name: nameVal,
+    User: userVal,
+    Email: emailVal,
+    Password: passwordVal,
+  });
+}
+
 export {
   auth,
   db,
@@ -49,4 +58,5 @@ export {
   sendPasswordResetEmail,
   GoogleAuthProvider,
   signInWithPopup,
+  saveUsers,
 };

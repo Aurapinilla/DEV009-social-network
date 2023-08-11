@@ -1,5 +1,15 @@
-import { newUser, userLogin, logOut, authErrors } from '../src/lib/index';
-import { auth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from '../src/helpers/firebase-init';
+import {
+  newUser,
+  userLogin,
+  logOut,
+} from '../src/lib/index';
+
+import {
+  auth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  signInWithEmailAndPassword,
+} from '../src/helpers/firebase-init';
 
 jest.mock('../src/helpers/firebase-init', () => ({
   createUserWithEmailAndPassword: jest.fn(),
@@ -10,7 +20,7 @@ jest.mock('../src/helpers/firebase-init', () => ({
     signOut: jest.fn(),
   },
   signInWithPopup: jest.fn(),
-  GoogleAuthProvider: {}
+  GoogleAuthProvider: {},
 }));
 
 describe('newUser', () => {
@@ -25,7 +35,7 @@ describe('newUser', () => {
   });
 });
 
-describe('newUser', () => {
+describe('userLogin', () => {
   it('should allow an user to sign in', () => {
     signInWithEmailAndPassword.mockResolvedValue({ user: { email: 'email@example.com', password: 'password123' } });
 
@@ -54,7 +64,8 @@ describe('logOut', () => {
     return logOut().then(() => {
       // Asegurarse de que la función se haya llamado
       expect(auth.signOut).toHaveBeenCalledTimes(1);
-      console.log('User signed out.');
     });
   });
 });
+
+// Test de las navegaciones de pagina

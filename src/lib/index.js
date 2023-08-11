@@ -1,6 +1,3 @@
-// aqui exportaras las funciones que necesites
-import { AuthErrorCodes } from 'firebase/auth';
-
 import {
   auth,
   // db,
@@ -11,63 +8,65 @@ import {
   // sendPasswordResetEmail,
   GoogleAuthProvider,
   signInWithPopup,
-}
-  from '../helpers/firebase-init';
+} from '../helpers/firebase-init';
 
-function showMessage(message) {
+function showMessage(message, containerId) {
+  // console.log(message);
+  const messageContainer = document.getElementById(containerId);
   messageContainer.innerText = message;
   messageContainer.style.display = 'block';
 }
-  
-function hideMessage() {
-  messageContainer.style.display = 'none';
-}
 
-function authErrors(error) {
-  const errorCode = error.code;
-  
-  if (errorCode === AuthErrorCodes.EMAIL_EXISTS) {
-   showMessage('This email is already registered.');
-  } else if (errorCode === AuthErrorCodes.INVALID_PASSWORD) {
-    showMessage('Wrong password. Please try again.');
-  } else if (errorCode === AuthErrorCodes.INVALID_EMAIL) {
-    showMessage('Invalid email. Please type a valid email address.');
+function authErrors(error, containerId) {
+  let errorMessage = '';
+  // console.log(error);
+  // console.log('ERROR.CODE', error.code);
+  if (error.code === 'auth/email-already-in-use') {
+    // console.log('ERROR.CODE2', error.code);
+    errorMessage = 'This email is already registered.';
+    // console.log(errorMessage);
+  } else if (error.code === 'auth/user-not-found') {
+    errorMessage = 'This account does not exist. Please register.';
+  } else if (error.code === 'auth/wrong-password') {
+    errorMessage = 'Wrong password. Please try again.';
+  } else if (error.code === 'auth/missing-password') {
+    errorMessage = 'Please provide your password.';
+  } else if (error.code === 'auth/invalid-email') {
+    errorMessage = 'Invalid email. Please type a valid email address.';
   } else {
-    console.error(error);
+    errorMessage = error;
   }
+  // console.log(errorMessage);
+  showMessage(errorMessage, containerId);
 }
 
 function newUser(name, userImput, email, password) {
-  return new Promise((resolve, reject) => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user); // Signed in
+  return createUserWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      const message = `Email verification sent to ${email}`;
+      authErrors(message, 'messageContainer');
 
-        resolve(sendEmailVerification(auth.currentUser));
-      })
-      .catch((error) => {
-        authErrors(error);
-        reject(error);
-      });
-  });
+      return sendEmailVerification(auth.currentUser);
+    })
+    .then(() => true)
+    .catch((error) => {
+      throw authErrors(error, 'messageContainer');
+    });
 }
 
 function userLogin(email, password) {
   return signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const loggedInUser = userCredential.user;
-      console.log(loggedInUser);
 
       if (!loggedInUser.emailVerified) {
-        showMessage('Email has not been verified yet. Please check your inbox.');
-        return false;
+        const errorMessage = 'Email has not been verified yet. Please check your inbox.';
+        throw showMessage(errorMessage, 'messageContainerl');
       }
-
       return true;
     })
     .catch((error) => {
-      authErrors(error);
+      throw authErrors(error, 'messageContainerl');
     });
 }
 
@@ -80,15 +79,11 @@ function logOut() {
   return new Promise((resolve, reject) => {
     auth.signOut()
       .then(() => {
-        console.log('User signed out.');
+        // console.log('User signed out.');
         resolve();
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(errorCode + errorMessage);
-
-        reject(error);
+        reject(authErrors(error));
       });
   });
 }
@@ -99,6 +94,5 @@ export {
   googleAuth,
   logOut,
   showMessage,
-  hideMessage,
   authErrors,
 };

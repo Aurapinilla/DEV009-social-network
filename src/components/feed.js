@@ -17,7 +17,7 @@ function feed(navigateTo) {
 
   const logOutBtn = document.createElement('i');
   logOutBtn.setAttribute('class', 'fa-solid fa-right-from-bracket');
-  logOutBtn.classList.add('logout-btn')
+  logOutBtn.classList.add('logout-btn');
   logOutBtn.type = 'button';
   logOutBtn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -50,7 +50,7 @@ function feed(navigateTo) {
   searchFilter.classList.add('search-filter');
   searchFilter.append(searchBar, filterBtn);
 
-  const title =document.createElement('h2');
+  const title = document.createElement('h2');
   title.textContent = 'Latest Experiences!';
   title.classList.add('feed-title');
 

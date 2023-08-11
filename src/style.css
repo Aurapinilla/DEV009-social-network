@@ -16,15 +16,21 @@ body {
 
 }
 
-.header-login .logo,
-.header-login .back-arrow {
-    margin: 10px;
-}
-
 .back-arrow {
     font-size: 20px;
     align-self: self-start;
     cursor: pointer;
+}
+
+.logo {
+    margin-top: 23vh;
+    max-width: 600vw;
+    max-height: 600vw;
+}
+
+.header-login .logo,
+.header-login .back-arrow {
+    margin: 10px;
 }
 
 .header-login {
@@ -35,11 +41,6 @@ body {
 }
 
 /*Only for login and register*/
-.logo {
-    margin-top: 23vh;
-    max-width: 600vw;
-    max-height: 600vw;
-}
 
 .home-content {
     margin-left: 20%;

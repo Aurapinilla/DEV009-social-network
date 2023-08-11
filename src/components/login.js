@@ -1,5 +1,9 @@
 // import { doc } from "firebase/firestore";
-import { userLogin, googleAuth, authErrors, hideMessage } from '../lib/index';
+import {
+  userLogin,
+  googleAuth,
+  authErrors,
+} from '../lib/index';
 
 function login(navigateTo) {
   // Main container section
@@ -91,7 +95,7 @@ function login(navigateTo) {
 
   // Alert Messages
   const messageContainer = document.createElement('div');
-  messageContainer.id = 'messageContainer';
+  messageContainer.id = 'messageContainerl';
   messageContainer.classList.add('message-container');
 
   // Submit login form
@@ -105,20 +109,17 @@ function login(navigateTo) {
       const passCode = passwordInput.value;
 
       userLogin(emailImpt, passCode)
-        .then((signInResult) => {
-          if (signInResult) {
-            navigateTo('/feed');
-          }
+        .then(() => {
+          navigateTo('/feed');
         })
-        .catch((error) => {
-          authErrors(error);
+        .catch(() => {
         });
     }
   });
 
   // Hide Messages
   document.addEventListener('click', () => {
-    hideMessage();
+    messageContainer.style.display = 'none';
   });
 
   section.append(header, loginForm, messageContainer);

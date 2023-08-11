@@ -1,6 +1,11 @@
 import {
-  newUser, googleAuth, authErrors, hideMessage, showMessage
+  newUser,
+  googleAuth,
+  authErrors,
+  showMessage,
 } from '../lib/index';
+
+import { saveUsers } from '../helpers/firebase-init';
 
 function register(navigateTo) {
   // Main container section
@@ -30,27 +35,30 @@ function register(navigateTo) {
 
   const nameU = document.createElement('h4');
   nameU.textContent = 'Name:';
-  const nameImput = document.createElement('input');
-  nameImput.placeholder = 'Ex: Jhon Evans';
-  nameImput.type = 'text';
+  const nameInput = document.createElement('input');
+  nameInput.id = 'name-imput';
+  nameInput.placeholder = 'Ex: Jhon Evans';
+  nameInput.type = 'text';
 
   const nameDiv = document.createElement('div');
-  nameDiv.append(nameU, nameImput);
+  nameDiv.append(nameU, nameInput);
   nameDiv.classList.add('nameU');
 
   const userName = document.createElement('h4');
   userName.textContent = 'User:';
-  const userImput = document.createElement('input');
-  userImput.placeholder = 'Type your user';
-  userImput.type = 'text';
+  const userInput = document.createElement('input');
+  userInput.id = 'user-input';
+  userInput.placeholder = 'Type your user';
+  userInput.type = 'text';
 
   const userDiv = document.createElement('div');
-  userDiv.append(userName, userImput);
+  userDiv.append(userName, userInput);
   userDiv.classList.add('user');
 
   const email = document.createElement('h4');
   email.textContent = 'Email:';
   const emailInput = document.createElement('input');
+  emailInput.id = 'email-input';
   emailInput.placeholder = 'email@example.com';
   emailInput.type = 'email';
 
@@ -61,6 +69,7 @@ function register(navigateTo) {
   const password = document.createElement('h4');
   password.textContent = 'Create Password:';
   const passwordInput = document.createElement('input');
+  passwordInput.id = 'password-input';
   passwordInput.placeholder = '**********';
   passwordInput.type = 'password';
 
@@ -122,30 +131,39 @@ function register(navigateTo) {
   signUpForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
+    function areFieldsEmpty(...fields) {
+      return fields.some((field) => field.trim() === '');
+    }
+
     const googleButtonClicked = e.submitter === googleDiv;
 
     if (!googleButtonClicked) {
-      const name = nameImput.value;
-      const userValue = userImput.value;
+      const name = nameInput.value;
+      const userValue = userInput.value;
       const emailValue = emailInput.value;
       const passwordValue = passwordInput.value;
       const passwordConfirmValue = confirmPasswordInput.value;
 
       if (userValue.includes(' ')) {
-        showMessage('User cannot have spaces.');
+        const message = 'User cannot have spaces.';
+        showMessage(message, 'messageContainer');
       } else if (passwordValue.length < 6) {
-        showMessage('Password should be at least 6 characters.');
+        const message = 'Password should be at least 6 characters.';
+        showMessage(message, 'messageContainer');
+      } else if (areFieldsEmpty(name, userValue, emailValue, passwordValue, passwordConfirmValue)) {
+        const message = 'Please fill in all the fields.';
+        showMessage(message, 'messageContainer');
       } else if (passwordValue !== passwordConfirmValue) {
-        showMessage('Password fields must be the same.');
+        const message = 'Password fields must be the same.';
+        showMessage(message, 'messageContainer');
       } else {
         newUser(name, userValue, emailValue, passwordValue)
+          .then(() => saveUsers(name, userValue, emailValue, passwordValue))
           .then(() => {
-            // Se muestra la alerta y luego se redirige a la página de inicio
-            showMessage(`Email verification sent to ${emailValue}`);
+            // console.log('User saved');
             navigateTo('/');
           })
-          .catch((error) => {
-            authErrors(error);
+          .catch(() => {
           });
       }
     }
@@ -153,7 +171,7 @@ function register(navigateTo) {
 
   // Hide Messages
   document.addEventListener('click', () => {
-    hideMessage();
+    messageContainer.style.display = 'none';
   });
 
   section.append(header, signUpForm, messageContainer);

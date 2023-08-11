@@ -12,7 +12,9 @@
   "license": "MIT",
   "scripts": {
     "htmlhint": "htmlhint dist/*.html ",
-    
+    "eslint": "eslint --ext .js src/ test/",
+    "stylelint": "stylelint --aei src/**/*.css",
+    "pretest": "npm run htmlhint && npm run eslint && npm run stylelint",
     "test": "jest --coverage",
     "dev": "vite dev src",
     "start": "npm run dev",
@@ -41,6 +43,7 @@
     "commit": "43c4a1dae1d831042293f9129c2df234888bf241"
   },
   "dependencies": {
-    "firebase": "^10.1.0"
+    "firebase": "^10.1.0",
+    "firebase-admin": "^11.10.1"
   }
 }
