@@ -1,4 +1,4 @@
-import { logOut, authErrors } from '../lib/index';
+import { logOut } from '../lib/index';
 
 function feed(navigateTo) {
   const section = document.createElement('section');
@@ -27,7 +27,7 @@ function feed(navigateTo) {
         navigateTo('/');
       })
       .catch((error) => {
-        authErrors(error);
+        throw error;
       });
   });
 

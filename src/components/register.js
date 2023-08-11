@@ -1,11 +1,35 @@
-import {
-  newUser,
-  googleAuth,
-  authErrors,
-  showMessage,
-} from '../lib/index';
+// eslint-disable-next-line import/no-cycle
+import { newUser, googleAuth } from '../lib/index';
 
 import { saveUsers } from '../helpers/firebase-init';
+
+function showRegMessage(message) {
+   console.log(message);
+  const containerR = document.getElementById('messageContainer');
+  containerR.innerText = message;
+  containerR.style.display = 'block';
+}
+
+function handleRegistration(name, userValue, emailValue, passwordValue, passwordConfirmValue, navigateTo) {
+  newUser(name, userValue, emailValue, passwordValue)
+    .then((newUserResult) => {
+      console.log('New user result', newUserResult);
+      showRegMessage(newUserResult.message);
+      if (newUserResult.success) {
+        return saveUsers(name, userValue, emailValue, passwordValue);
+      } else {
+        showRegMessage(newUserResult.error);
+        throw new Error(newUserResult.error);
+      }
+    })
+    .then(() => {
+      console.log('User saved');
+      navigateTo('/');
+    })
+    .catch((error) => {
+      showRegMessage(error);
+    });
+}
 
 function register(navigateTo) {
   // Main container section
@@ -107,10 +131,9 @@ function register(navigateTo) {
   googleDiv.addEventListener('click', () => {
     googleAuth()
       .then(() => {
-        navigateTo('/feed');
       })
       .catch((error) => {
-        authErrors(error);
+        showRegMessage(error);
       });
   });
 
@@ -146,25 +169,18 @@ function register(navigateTo) {
 
       if (userValue.includes(' ')) {
         const message = 'User cannot have spaces.';
-        showMessage(message, 'messageContainer');
+        showRegMessage(message);
       } else if (passwordValue.length < 6) {
         const message = 'Password should be at least 6 characters.';
-        showMessage(message, 'messageContainer');
+        showRegMessage(message);
       } else if (areFieldsEmpty(name, userValue, emailValue, passwordValue, passwordConfirmValue)) {
         const message = 'Please fill in all the fields.';
-        showMessage(message, 'messageContainer');
+        showRegMessage(message);
       } else if (passwordValue !== passwordConfirmValue) {
         const message = 'Password fields must be the same.';
-        showMessage(message, 'messageContainer');
+        showRegMessage(message);
       } else {
-        newUser(name, userValue, emailValue, passwordValue)
-          .then(() => saveUsers(name, userValue, emailValue, passwordValue))
-          .then(() => {
-            // console.log('User saved');
-            navigateTo('/');
-          })
-          .catch(() => {
-          });
+        handleRegistration(name, userValue, emailValue, passwordValue, passwordConfirmValue, navigateTo);
       }
     }
   });
@@ -180,3 +196,5 @@ function register(navigateTo) {
 }
 
 export default register;
+
+export { showRegMessage };

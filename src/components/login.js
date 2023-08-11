@@ -1,9 +1,27 @@
-// import { doc } from "firebase/firestore";
-import {
-  userLogin,
-  googleAuth,
-  authErrors,
-} from '../lib/index';
+// eslint-disable-next-line import/no-cycle
+import { userLogin, googleAuth } from '../lib/index';
+
+function showLogMessage(message) {
+   console.log(message)
+  const containerL = document.getElementById('messageContainerl');
+  containerL.innerText = message;
+  containerL.style.display = 'block';
+}
+
+function handleLogin(emailValue, passwordValue, navigateTo) {
+  userLogin(emailValue, passwordValue)
+    .then((result) => {
+      if (result.error) {
+        showLogMessage(result.error); // Mostrar el mensaje de error
+        return; // Sale de la función si hay un error
+      }
+
+      navigateTo('/feed'); // Redireccionar solo si no hay errores
+    })
+    .catch((error) => {
+      showLogMessage(error);
+    });
+}
 
 function login(navigateTo) {
   // Main container section
@@ -66,10 +84,9 @@ function login(navigateTo) {
   googleDiv.addEventListener('click', () => {
     googleAuth()
       .then(() => {
-        navigateTo('/feed');
       })
       .catch((error) => {
-        authErrors(error);
+        showLogMessage(error);
       });
   });
 
@@ -108,12 +125,7 @@ function login(navigateTo) {
       const emailImpt = emailInput.value;
       const passCode = passwordInput.value;
 
-      userLogin(emailImpt, passCode)
-        .then(() => {
-          navigateTo('/feed');
-        })
-        .catch(() => {
-        });
+      handleLogin(emailImpt, passCode, navigateTo); // Llama a handleLogin
     }
   });
 
@@ -128,3 +140,5 @@ function login(navigateTo) {
 }
 
 export default login;
+
+export { showLogMessage };

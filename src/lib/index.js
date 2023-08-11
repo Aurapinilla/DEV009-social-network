@@ -1,3 +1,7 @@
+// eslint-disable-next-line import/no-cycle
+import { showRegMessage } from '../components/register';
+// eslint-disable-next-line import/no-cycle
+import { showLogMessage } from '../components/login';
 import {
   auth,
   // db,
@@ -10,24 +14,18 @@ import {
   signInWithPopup,
 } from '../helpers/firebase-init';
 
-function showMessage(message, containerId) {
-  // console.log(message);
+/* function showMessage(message, containerId) {
+   console.log(message);
   const messageContainer = document.getElementById(containerId);
   messageContainer.innerText = message;
   messageContainer.style.display = 'block';
-}
+} */
 
-function authErrors(error, containerId) {
+/* function authErrors(error, containerId) {
   let errorMessage = '';
-  // console.log(error);
-  // console.log('ERROR.CODE', error.code);
-  if (error.code === 'auth/email-already-in-use') {
-    // console.log('ERROR.CODE2', error.code);
-    errorMessage = 'This email is already registered.';
-    // console.log(errorMessage);
-  } else if (error.code === 'auth/user-not-found') {
-    errorMessage = 'This account does not exist. Please register.';
-  } else if (error.code === 'auth/wrong-password') {
+   console.log(error);
+   console.log('ERROR.CODE', error.code);
+  if (error.code === 'auth/wrong-password') {
     errorMessage = 'Wrong password. Please try again.';
   } else if (error.code === 'auth/missing-password') {
     errorMessage = 'Please provide your password.';
@@ -36,21 +34,28 @@ function authErrors(error, containerId) {
   } else {
     errorMessage = error;
   }
-  // console.log(errorMessage);
+   console.log(errorMessage);
   showMessage(errorMessage, containerId);
-}
+} */
 
 function newUser(name, userImput, email, password) {
   return createUserWithEmailAndPassword(auth, email, password)
     .then(() => {
       const message = `Email verification sent to ${email}`;
-      authErrors(message, 'messageContainer');
-
-      return sendEmailVerification(auth.currentUser);
+      console.log('mensaje?', message);
+      return { success: true, message: message };
     })
-    .then(() => true)
     .catch((error) => {
-      throw authErrors(error, 'messageContainer');
+      if (error.code === 'auth/email-already-in-use') {
+        const message = 'This email is already registered.';
+        return { success: false, error: message };
+        // console.log('ERROR.CODE2', error.code);
+        // console.log(errorMessage);
+      } else {
+        const message = error;
+        return { success: false, error: message };
+      }
+    //  throw authErrors(error, 'messageContainer');
     });
 }
 
@@ -61,12 +66,24 @@ function userLogin(email, password) {
 
       if (!loggedInUser.emailVerified) {
         const errorMessage = 'Email has not been verified yet. Please check your inbox.';
-        throw showMessage(errorMessage, 'messageContainerl');
+        return { success: false, error: errorMessage };
       }
-      return true;
+      return { success: true };
     })
     .catch((error) => {
-      throw authErrors(error, 'messageContainerl');
+      let errorMessage = '';
+      if (error.code === 'auth/wrong-password') {
+        errorMessage = 'Wrong password. Please try again.';
+      } else if (error.code === 'auth/missing-password') {
+        errorMessage = 'Please provide your password.';
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = 'Invalid email. Please type a valid email address.';
+      } else if (error.code === 'auth/user-not-found') {
+        errorMessage = 'This account does not exist. Please register.';
+      } else {
+        errorMessage = error;
+      }
+      return { success: false, error: errorMessage };
     });
 }
 
@@ -83,7 +100,7 @@ function logOut() {
         resolve();
       })
       .catch((error) => {
-        reject(authErrors(error));
+        reject(error);
       });
   });
 }
@@ -93,6 +110,4 @@ export {
   userLogin,
   googleAuth,
   logOut,
-  showMessage,
-  authErrors,
 };

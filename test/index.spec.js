@@ -2,6 +2,7 @@ import {
   newUser,
   userLogin,
   logOut,
+  // authErrors,
 } from '../src/lib/index';
 
 import {
@@ -9,29 +10,29 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   signInWithEmailAndPassword,
+  // signInWithPopup,
+  // GoogleAuthProvider,
 } from '../src/helpers/firebase-init';
 
-jest.mock('../src/helpers/firebase-init', () => ({
-  createUserWithEmailAndPassword: jest.fn(),
-  sendEmailVerification: jest.fn(),
-  signInWithEmailAndPassword: jest.fn(),
-  auth: {
-    currentUser: {},
-    signOut: jest.fn(),
-  },
-  signInWithPopup: jest.fn(),
-  GoogleAuthProvider: {},
-}));
+jest.mock('../src/helpers/firebase-init');
 
 describe('newUser', () => {
   it('should create a new user and send email verification', () => {
-    createUserWithEmailAndPassword.mockResolvedValue({ user: { email: 'email@example.com', password: 'password123' } });
-    sendEmailVerification.mockResolvedValue();
+    const fakeContainer = {
+      innerText: '',
+      style: { display: '' },
+    };
 
-    return newUser('email@example.com', 'password123').then(() => {
-      expect(createUserWithEmailAndPassword).toHaveBeenCalledTimes(1);
-      expect(sendEmailVerification).toHaveBeenCalledTimes(1);
+    createUserWithEmailAndPassword.mockResolvedValue({
+      user: { email: 'email@example.com', password: 'password123' },
     });
+    sendEmailVerification.mockResolvedValue();
+    return newUser('Juan', 'Juan123', 'juan@correo.com', 'password123', fakeContainer)
+      .then((result) => {
+        expect(result).toBe(true);
+        expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(auth, 'juan@correo.com', 'password123');
+        expect(sendEmailVerification).toHaveBeenCalled();
+      });
   });
 });
 
@@ -57,12 +58,9 @@ describe('userLogin', () => {
 
 describe('logOut', () => {
   it('should call signOut function and resolve', () => {
-    // Configurar el mock de signOut para resolver
     auth.signOut.mockResolvedValue();
 
-    // Llamar a la función y usar then para manejar la promesa
     return logOut().then(() => {
-      // Asegurarse de que la función se haya llamado
       expect(auth.signOut).toHaveBeenCalledTimes(1);
     });
   });
