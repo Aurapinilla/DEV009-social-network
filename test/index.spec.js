@@ -2,7 +2,7 @@ import {
   newUser,
   userLogin,
   logOut,
-  // authErrors,
+  googleAuth,
 } from '../src/lib/index';
 
 import {
@@ -10,8 +10,8 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   signInWithEmailAndPassword,
-  // signInWithPopup,
-  // GoogleAuthProvider,
+  signInWithPopup,
+  GoogleAuthProvider,
 } from '../src/helpers/firebase-init';
 
 jest.mock('../src/helpers/firebase-init');
@@ -48,15 +48,15 @@ describe('userLogin', () => {
   });
 });
 
-/* describe('googleAuth', () => {
+describe('googleAuth', () => {
   it('should call signInWithPopup with the GoogleAuthProvider', () => {
-    const googleProvider = new GoogleAuthProvider();
+    googleAuth()
+      const googleProvider = new GoogleAuthProvider();
 
-    googleAuth();
-    expect(signInWithPopup).toHaveBeenCalledTimes(1);
-    expect(signInWithPopup).toHaveBeenCalledWith(expect.any(Object), googleProvider);
-  });
-}); */
+      expect(signInWithPopup).toHaveBeenCalledTimes(1);
+      return signInWithPopup(auth, googleProvider)
+  })
+});
 
 describe('logOut', () => {
   it('should call signOut function and resolve', () => {

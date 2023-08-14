@@ -98,7 +98,7 @@ function logOut() {
   return new Promise((resolve, reject) => {
     auth.signOut()
       .then(() => {
-        // console.log('User signed out.');
+        console.log('User signed out.');
         resolve();
       })
       .catch((error) => {
