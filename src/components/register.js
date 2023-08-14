@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-cycle
 import { newUser, googleAuth } from '../lib/index';
 
 import { saveUsers } from '../helpers/firebase-init';

@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-cycle
 import { userLogin, googleAuth } from '../lib/index';
 
 function showLogMessage(message) {

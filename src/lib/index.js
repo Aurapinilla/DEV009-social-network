@@ -1,7 +1,3 @@
-// eslint-disable-next-line import/no-cycle
-import { showRegMessage } from '../components/register';
-// eslint-disable-next-line import/no-cycle
-import { showLogMessage } from '../components/login';
 import {
   auth,
   // db,
@@ -41,6 +37,7 @@ import {
 function newUser(name, userInput, email, password) {
   return createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
+      // No está mostrando mensaje en pantalla
       const message = `Email verification sent to ${email}`;
       console.log('mensaje?', message);
       const user = userCredential.user;
