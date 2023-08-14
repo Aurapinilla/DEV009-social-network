@@ -38,11 +38,13 @@ import {
   showMessage(errorMessage, containerId);
 } */
 
-function newUser(name, userImput, email, password) {
+function newUser(name, userInput, email, password) {
   return createUserWithEmailAndPassword(auth, email, password)
-    .then(() => {
+    .then((userCredential) => {
       const message = `Email verification sent to ${email}`;
       console.log('mensaje?', message);
+      const user = userCredential.user;
+      sendEmailVerification(user)
       return { success: true, message: message };
     })
     .catch((error) => {

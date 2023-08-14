@@ -29,9 +29,11 @@ describe('newUser', () => {
     sendEmailVerification.mockResolvedValue();
     return newUser('Juan', 'Juan123', 'juan@correo.com', 'password123', fakeContainer)
       .then((result) => {
-        expect(result).toBe(true);
+        expect(result).toEqual({
+          "message": "Email verification sent to juan@correo.com", "success": true
+        });
         expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(auth, 'juan@correo.com', 'password123');
-        expect(sendEmailVerification).toHaveBeenCalled();
+        expect(sendEmailVerification).toHaveBeenCalledTimes(1);
       });
   });
 });
