@@ -46,13 +46,17 @@ function feed(navigateTo) {
   filterBtn.textContent = 'Filter';
   filterBtn.classList.add('filter-btn');
 
-  const searchFilter = document.createElement('div');
-  searchFilter.classList.add('search-filter');
-  searchFilter.append(searchBar, filterBtn);
-
   const title = document.createElement('h2');
   title.textContent = 'Latest Experiences!';
   title.classList.add('feed-title');
+
+  const upperSection = document.createElement('div');
+  upperSection.classList.add('upper-section');
+  upperSection.append(searchBar, filterBtn, title);
+
+  const postsContainer = document.createElement('div');
+  postsContainer.id = 'postsContainer';
+  postsContainer.classList.add('post-container');
 
   const bottomMenu = document.createElement('div');
   bottomMenu.classList.add('bottom-menu');
@@ -60,10 +64,16 @@ function feed(navigateTo) {
   const homeBtn = document.createElement('i');
   homeBtn.setAttribute('class', 'fa-solid fa-house');
   homeBtn.classList.add('home-btn');
+  homeBtn.addEventListener('click', () => {
+    navigateTo('/feed');
+  })
 
   const newPost = document.createElement('i');
   newPost.setAttribute('class', 'fa-solid fa-square-plus');
   newPost.classList.add('post-btn');
+  newPost.addEventListener('click', () => {
+    navigateTo('/createpost');
+  })
 
   const calendar = document.createElement('div');
   calendar.setAttribute('class', 'fa-solid fa-calendar-days');
@@ -71,7 +81,7 @@ function feed(navigateTo) {
 
   bottomMenu.append(homeBtn, newPost, calendar);
 
-  section.append(upperMenu, searchFilter, bottomMenu);
+  section.append(upperMenu, upperSection, postsContainer, bottomMenu);
 
   return section;
 }

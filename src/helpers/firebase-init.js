@@ -48,6 +48,16 @@ function saveUsers(nameVal, userVal, emailVal, passwordVal) {
   });
 }
 
+//Add/ save posts
+// Agregar el usuario y fecha de publicacion
+function publishPost(titleInput, locationInput, contentInput) {
+  addDoc(collection(db, 'Posts'), {
+    Title: titleInput,
+    Location: locationInput,
+    Content: contentInput,    
+  });
+}
+
 export {
   auth,
   db,
@@ -59,4 +69,5 @@ export {
   GoogleAuthProvider,
   signInWithPopup,
   saveUsers,
+  publishPost,
 };

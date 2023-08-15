@@ -4,6 +4,7 @@ import login from './components/login.js';
 import error from './components/error.js';
 import register from './components/register.js';
 import feed from './components/feed.js';
+import createPost from './components/createpost.js';
 
 const root = document.getElementById('root');
 
@@ -13,6 +14,7 @@ const routes = [
   { path: '/register', component: register },
   { path: '/feed', component: feed },
   { path: '/error', component: error },
+  { path: '/createpost', component: createPost },
 ];
 
 const defaultRoute = '/';
@@ -40,7 +42,7 @@ function navigateTo(hash) {
 }
 
 window.onpopstate = () => {
-  // console.log('Hubo un cambio');
+  console.log('Hubo un cambio');
   navigateTo(window.location.pathname);
 };
 

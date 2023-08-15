@@ -259,20 +259,28 @@ body {
     font-size: 20px;
 }
 
-.search-filter {
+.upper-section {
     display: flex;
     flex-direction: column;
-    margin-bottom: 460px;
+    margin-bottom: 380px;
     align-self: center;
     gap: 5px;
+    border-bottom:1px solid rgb(101, 101, 101);
 }
 
 .filter-btn {
     font-size: 12px;
     width: min-content;
     align-self: center;
+    margin-bottom: 20px;
 }
 
+.feed-title {
+    font-family: Arial, sans-serif;
+    font-size: 17px;
+    align-self: center;
+   
+}
 
 .bottom-menu {
     border-top: 1px solid rgb(101, 101, 101);
