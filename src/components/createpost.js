@@ -16,11 +16,11 @@ function createPost(navigateTo) {
   
     const userProfile = document.createElement('i');
     userProfile.setAttribute('class', 'fa-solid fa-circle-user');
-    userProfile.classList.add('user-profile');
+    userProfile.classList.add('user-profile', 'icons');
   
     const logOutBtn = document.createElement('i');
     logOutBtn.setAttribute('class', 'fa-solid fa-right-from-bracket');
-    logOutBtn.classList.add('logout-btn');
+    logOutBtn.classList.add('logout-btn', 'icons');
     logOutBtn.type = 'button';
     logOutBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -42,7 +42,7 @@ function createPost(navigateTo) {
 
     const cancelBtn = document.createElement('i');
     cancelBtn.setAttribute('class', 'fa-solid fa-square-xmark');
-    cancelBtn.classList.add('cancel-post');
+    cancelBtn.classList.add('cancel-post', 'icons');
     cancelBtn.type = 'button';
     cancelBtn.addEventListener('click', () => {
         navigateTo('/feed');
@@ -82,7 +82,7 @@ function createPost(navigateTo) {
     content.innerText = 'Content';
     content.classList.add('newpost-headings');
 
-    const contentInput = document.createElement('input');
+    const contentInput = document.createElement('textarea');
     contentInput.classList.add('newpost-inputs', 'post-content');
     contentInput.placeholder = 'Ask/Share your experience, recommendation, etc.';
 
@@ -93,7 +93,7 @@ function createPost(navigateTo) {
     const postBtn = document.createElement('button');
     postBtn.textContent = 'Upload';
     postBtn.type = 'submit';
-    postBtn.classList.add('newpost-upload-btn');
+    postBtn.classList.add('newpost-upload-btn', 'buttons');
 
     const postForm = document.createElement('form');
     postForm.classList.add('newpost-form');

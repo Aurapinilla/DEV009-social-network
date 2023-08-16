@@ -30,7 +30,7 @@ function home(navigateTo) {
   loginBtn.addEventListener('click', () => {
     navigateTo('/login');
   });
-  loginBtn.classList.add('login-btn');
+  loginBtn.classList.add('login-btn', 'buttons');
 
   // Link to Sign up
   const message3 = document.createElement('p');

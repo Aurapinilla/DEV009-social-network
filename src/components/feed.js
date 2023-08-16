@@ -13,11 +13,11 @@ function feed(navigateTo) {
 
   const userProfile = document.createElement('i');
   userProfile.setAttribute('class', 'fa-solid fa-circle-user');
-  userProfile.classList.add('user-profile');
+  userProfile.classList.add('user-profile', 'icons');
 
   const logOutBtn = document.createElement('i');
   logOutBtn.setAttribute('class', 'fa-solid fa-right-from-bracket');
-  logOutBtn.classList.add('logout-btn');
+  logOutBtn.classList.add('logout-btn', 'icons');
   logOutBtn.type = 'button';
   logOutBtn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -41,18 +41,13 @@ function feed(navigateTo) {
   searchBar.placeholder = 'Destination or keyword...';
   searchBar.classList.add('search-bar');
 
-  const filterBtn = document.createElement('button');
-  filterBtn.setAttribute('class', 'fa-solid fa-sliders');
-  filterBtn.textContent = 'Filter';
-  filterBtn.classList.add('filter-btn');
-
   const title = document.createElement('h2');
   title.textContent = 'Latest Experiences!';
   title.classList.add('feed-title');
 
   const upperSection = document.createElement('div');
   upperSection.classList.add('upper-section');
-  upperSection.append(searchBar, filterBtn, title);
+  upperSection.append(searchBar, title);
 
   const postsContainer = document.createElement('div');
   postsContainer.id = 'postsContainer';
@@ -82,12 +77,26 @@ function feed(navigateTo) {
     let html = '';
     
     postsData.forEach((post) => {
+
+      const formatDate = post.date.toDate().toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      });
+
       html += `
         <div class="post">
+          <div class = "post-header">
+            <div class = "author-location">
+              <p>Author: ${post.author}</p>
+              <div class = "post-location">
+                <i class="fa-solid fa-map-pin"></i>
+                <p>${post.location}</p>
+              </div>  
+            </div>  
+              <p>${formatDate}</p>  
+          </div>
           <h4>${post.title}</h4>
-          <p>Author: ${post.author}</p>
-          <p>Location: ${post.location}</p>
-          <p>Date: ${post.date}</p>
           <p>${post.content}</p>
         </div>
       `;
@@ -95,30 +104,32 @@ function feed(navigateTo) {
     
     return html;
   }
+
   const bottomMenu = document.createElement('div');
   bottomMenu.classList.add('bottom-menu');
 
   const homeBtn = document.createElement('i');
   homeBtn.setAttribute('class', 'fa-solid fa-house');
-  homeBtn.classList.add('home-btn');
+  homeBtn.classList.add('home-btn', 'icons');
   homeBtn.addEventListener('click', () => {
     navigateTo('/feed');
   })
 
   const newPost = document.createElement('i');
   newPost.setAttribute('class', 'fa-solid fa-square-plus');
-  newPost.classList.add('post-btn');
+  newPost.classList.add('post-btn', 'icons');
   newPost.addEventListener('click', () => {
     navigateTo('/createpost');
   })
 
   const calendar = document.createElement('div');
   calendar.setAttribute('class', 'fa-solid fa-calendar-days');
-  calendar.classList.add('calendar-btn');
+  calendar.classList.add('calendar-btn', 'icons');
 
   bottomMenu.append(homeBtn, newPost, calendar);
 
   section.append(upperMenu, upperSection, postsContainer, bottomMenu);
+  postContainer();
 
   return section;
 }

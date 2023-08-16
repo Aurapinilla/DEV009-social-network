@@ -1,3 +1,4 @@
+import { orderBy } from 'firebase/firestore';
 import {
   auth,
   db,
@@ -38,40 +39,30 @@ import {
   showMessage(errorMessage, containerId);
 } */
 
-function newUser(name, userInput, email, password) {
-  return createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
+async function newUser(name, userInput, email, password) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Actualiza el displayName del usuario
-    return updateProfile(user, {
+    await updateProfile(user, {
       displayName: name,
-    })
-    .then(() => {
-      sendEmailVerification(user);
-
-      const message = `Email verification sent to ${email}`;
-      console.log('mensaje?', message);
-
-      return { success: true, message: message };
-    })
-      .catch((error) => {
-        const message = error;
-        return { success: false, error: message };
-      }); 
-    })
-    .catch((error) => {
-      if (error.code === 'auth/email-already-in-use') {
-        const message = 'This email is already registered.';
-        return { success: false, error: message };
-        // console.log('ERROR.CODE2', error.code);
-        // console.log(errorMessage);
-      } else {
-        const message = error;
-        return { success: false, error: message };
-      }
-    //  throw authErrors(error, 'messageContainer');
     });
+
+    await sendEmailVerification(user);
+
+    const message = `Email verification sent to ${email}`;
+    console.log('mensaje?', message);
+
+    return { success: true, message: message };
+  } catch (error) {
+    if (error.code === 'auth/email-already-in-use') {
+      const message = 'This email is already registered.';
+      return { success: false, error: message };
+    } else {
+      const message = error;
+      return { success: false, error: message };
+    }
+  }
 }
 
 function userLogin(email, password) {
@@ -135,7 +126,7 @@ function publishPost(userId, author, location, date, title, content) {
 
 async function displayPosts() {
   const postsCollection = collection(db, 'Posts');
-  const querySnapshot = await getDocs(postsCollection);
+  const querySnapshot = await getDocs(postsCollection, orderBy('date', 'desc'));
   console.log('querysnapshot', querySnapshot);
   return querySnapshot;
   

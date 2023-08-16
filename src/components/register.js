@@ -45,7 +45,7 @@ function register(navigateTo) {
   // Header
   const backArrow = document.createElement('i');
   backArrow.setAttribute('class', 'fa-solid fa-chevron-left');
-  backArrow.classList.add('back-arrow');
+  backArrow.classList.add('back-arrow', 'icons');
   backArrow.addEventListener('click', () => {
     navigateTo('/');
   });
@@ -121,7 +121,7 @@ function register(navigateTo) {
   const signUpBtn = document.createElement('button');
   signUpBtn.textContent = 'Sign Up';
   signUpBtn.type = 'submit';
-  signUpBtn.classList.add('signupBtn');
+  signUpBtn.classList.add('signupBtn', 'buttons');
 
   // Google Auth
   const googleLogo = document.createElement('img');
@@ -137,6 +137,7 @@ function register(navigateTo) {
   googleDiv.addEventListener('click', () => {
     googleAuth()
       .then(() => {
+        navigateTo('/feed');
       })
       .catch((error) => {
         showRegMessage(error);

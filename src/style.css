@@ -17,9 +17,7 @@ body {
 }
 
 .back-arrow {
-    font-size: 20px;
     align-self: self-start;
-    cursor: pointer;
 }
 
 .logo {
@@ -143,6 +141,7 @@ body {
 }
 
 .googleBtn {
+    font-size: 14px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -161,32 +160,47 @@ body {
     max-height: 26px;
 }
 
-.login-btn,
-.loginBtn,
-.signupBtn {
-    padding: 2px;
+.login-btn {
+ /*   padding: 2px;
     font-family: 'Open Sans', sans-serif;
     font-weight: 800;
-    font-size: 3.5vw;
+    font-size: 3.5vw; */
     color: #2F4554;
     background-color: #FFFFFF;
-    align-self: center;
-    width: 180px;
+   /* width: 180px;
     max-width: 40vw;
     height: 35px;
     max-height: 35px;
     border-radius: 8px;
     border-width: 1px;
-    border-color: aliceblue;
     margin-top: 10px;
-    margin-bottom: 0px;
-    cursor: pointer;
+    margin-bottom: 0px; */
 }
 
+.newpost-upload-btn,
 .loginBtn,
 .signupBtn {
     color: #FFFFFF;
     background-color: #85C2EE;
+}
+
+.buttons {
+    border-color: aliceblue;
+    align-self: center;
+    width: 180px;
+    height: 35px;
+    border-radius: 8px;
+    border-width: 1px;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 2px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+}
+
+
+.newpost-upload-btn {
+    margin-top: 15px;
 }
 
 .sign-upDiv {
@@ -207,19 +221,16 @@ body {
 
 }
 
-.signUp-Btns {
-    margin-top: -10px;
-}
-
 /*Alert Messages*/
 .message-container {
     font-family: Arial, sans-serif;
     text-align: center;
     padding: 15px;
     width:70%;
-    font-size: 20px;
-    border: 2px solid black;
-    background-color: #FFFFFF;
+    font-size: 18px;
+    border: 1px solid black;
+    border-radius: 8px;
+    background-color: #ffffff;
     color: red;
     position: fixed;
     top: 50%;
@@ -229,6 +240,15 @@ body {
 }
 
 /* Feed */
+
+.search-bar {
+    border-radius: 8px;
+    border-width: 0px;
+    background-color: #e4e4e4;
+    height: 20px;
+    padding: 3px;
+}
+
 .main-container {
     background-color: #FFFFFF;
     height: 100vh;
@@ -262,10 +282,11 @@ body {
 }
 
 .upper-section {
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     align-self: center;
-    gap: 5px;
+    gap: 20px;
 }
 
 .filter-btn {
@@ -287,14 +308,34 @@ body {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    gap: 10px;
     overflow: auto; /* Scroll */
 }
 
+.post-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.author-location {
+    display: flex;
+    flex-direction: column;
+}
+
+.post-location {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.fa-map-pin {
+    color: rgb(192, 4, 4);
+}
+
 .post {
+    text-align: justify;
     border-top: 1px solid rgb(101, 101, 101);
     border-bottom: 1px solid rgb(101, 101, 101);
-    padding: 5px;
+    padding: 13px;
 }
 
 .bottom-menu {
@@ -304,11 +345,6 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px;
-}
-
-.home-btn, .post-btn, .calendar-btn {
-    font-size: 20px;
-    color: #2F4554;
 }
 
 
@@ -342,10 +378,10 @@ body {
 
 .newpost-form {
     display: flex;
-    justify-content: center;
     flex-direction: column;
     margin-left: 20px;
     margin-right: 28px;
+    gap: 20px;
 }
 
 .newpost-inputs {
@@ -357,19 +393,17 @@ body {
 }
 
 .post-content {
-    height: 90px;
+    height: 120px;
 }
 
-.newpost-upload-btn {
-    align-self: center;
-    margin-top: 50px;
-    color: #FFFFFF;
-    background-color: #85C2EE;
-    width: 180px;
-    height: 35px;
-    border-radius: 8px;
-    border-width: 1px;
+.icons {
+    font-size: 20px;
     cursor: pointer;
+    color: #2F4554;
+}
+
+.newpost-headings {
+    margin-bottom: 5px;
 }
 
 /* Mobil */
