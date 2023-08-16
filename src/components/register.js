@@ -15,11 +15,18 @@ function handleRegistration(name, userValue, emailValue, passwordValue, password
       console.log('New user result', newUserResult);
       showRegMessage(newUserResult.message);
       if (newUserResult.success) {
-        return saveUsers(name, userValue, emailValue, passwordValue);
+        return newUserResult;
+  
       } else {
         showRegMessage(newUserResult.error);
         throw new Error(newUserResult.error);
       }
+    })
+    .then((newUserResult) => {
+      console.log('User saved in authentication:', newUserResult);
+      console.log('userName', name);
+      console.log('userr', userValue);
+      return saveUsers(name, userValue, emailValue, passwordValue);
     })
     .then(() => {
       console.log('User saved');

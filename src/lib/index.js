@@ -1,6 +1,9 @@
 import {
   auth,
-  // db,
+  db,
+  addDoc,
+  getDocs,
+  collection,
   // firebaseApp,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -8,6 +11,7 @@ import {
   // sendPasswordResetEmail,
   GoogleAuthProvider,
   signInWithPopup,
+  updateProfile,
 } from '../helpers/firebase-init';
 
 /* function showMessage(message, containerId) {
@@ -36,13 +40,25 @@ import {
 
 function newUser(name, userInput, email, password) {
   return createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // No está mostrando mensaje en pantalla
+  .then((userCredential) => {
+    const user = userCredential.user;
+
+    // Actualiza el displayName del usuario
+    return updateProfile(user, {
+      displayName: name,
+    })
+    .then(() => {
+      sendEmailVerification(user);
+
       const message = `Email verification sent to ${email}`;
       console.log('mensaje?', message);
-      const user = userCredential.user;
-      sendEmailVerification(user)
+
       return { success: true, message: message };
+    })
+      .catch((error) => {
+        const message = error;
+        return { success: false, error: message };
+      }); 
     })
     .catch((error) => {
       if (error.code === 'auth/email-already-in-use') {
@@ -104,9 +120,35 @@ function logOut() {
   });
 }
 
+//Add/ save posts
+function publishPost(userId, author, location, date, title, content) {
+  addDoc(collection(db, 'Posts'), {
+    userId,
+    author,
+    location,
+    date,
+    title,
+    content,
+  });
+}
+
+
+async function displayPosts() {
+  const postsCollection = collection(db, 'Posts');
+  const querySnapshot = await getDocs(postsCollection);
+  console.log('querysnapshot', querySnapshot);
+  return querySnapshot;
+  
+ /* querySnapshot.forEach((doc) => {
+    console.log('posts', doc.data());
+  }); */
+}
+
 export {
   newUser,
   userLogin,
   googleAuth,
   logOut,
+  publishPost,
+  displayPosts,
 };

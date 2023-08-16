@@ -10,9 +10,18 @@ import {
   sendEmailVerification,
   GoogleAuthProvider,
   signInWithPopup,
+  updateProfile,
 } from 'firebase/auth';
 
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp,
+  getDoc,
+  getDocs,
+  doc,
+} from 'firebase/firestore';
 
 // Project Credentials
 const firebaseApp = initializeApp({
@@ -48,16 +57,6 @@ function saveUsers(nameVal, userVal, emailVal, passwordVal) {
   });
 }
 
-//Add/ save posts
-// Agregar el usuario y fecha de publicacion
-function publishPost(titleInput, locationInput, contentInput) {
-  addDoc(collection(db, 'Posts'), {
-    Title: titleInput,
-    Location: locationInput,
-    Content: contentInput,    
-  });
-}
-
 export {
   auth,
   db,
@@ -69,5 +68,11 @@ export {
   GoogleAuthProvider,
   signInWithPopup,
   saveUsers,
-  publishPost,
+  serverTimestamp,
+  addDoc,
+  collection,
+  getDoc,
+  getDocs,
+  doc,
+  updateProfile,
 };

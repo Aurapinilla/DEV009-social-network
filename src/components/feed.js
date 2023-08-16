@@ -1,4 +1,4 @@
-import { logOut } from '../lib/index';
+import { displayPosts, logOut } from '../lib/index';
 
 function feed(navigateTo) {
   const section = document.createElement('section');
@@ -58,6 +58,43 @@ function feed(navigateTo) {
   postsContainer.id = 'postsContainer';
   postsContainer.classList.add('post-container');
 
+  //Adding posts
+  async function postContainer() {
+    try {
+      const postsSnapshot = await displayPosts();
+      console.log('postsnapshots', postsSnapshot);
+      const postsData = [];
+      
+      postsSnapshot.forEach((doc) => {
+        postsData.push(doc.data());
+      });
+      
+      const postsHTML = generatePostsHTML(postsData); // Generar el HTML de los posts
+      console.log('html posts', generatePostsHTML(postsData));
+      postsContainer.innerHTML = postsHTML;
+    } catch (error) {
+      console.error('Error generating posts:', error);
+    }
+  };
+  postContainer();
+  
+  function generatePostsHTML(postsData) {
+    let html = '';
+    
+    postsData.forEach((post) => {
+      html += `
+        <div class="post">
+          <h4>${post.title}</h4>
+          <p>Author: ${post.author}</p>
+          <p>Location: ${post.location}</p>
+          <p>Date: ${post.date}</p>
+          <p>${post.content}</p>
+        </div>
+      `;
+    });
+    
+    return html;
+  }
   const bottomMenu = document.createElement('div');
   bottomMenu.classList.add('bottom-menu');
 

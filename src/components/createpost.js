@@ -1,4 +1,6 @@
-import { publishPost } from '../helpers/firebase-init';
+import { logOut, publishPost, displayPosts, newUser, userLogin} from '../lib/index';
+
+import { auth, serverTimestamp, doc, getDoc, db, collection,} from '../helpers/firebase-init';
 
 function createPost(navigateTo) {
 
@@ -48,7 +50,7 @@ function createPost(navigateTo) {
 
     const title = document.createElement('h2');
     title.textContent = 'Create Post';
-    title.classList.add('newpost-title');
+    title.classList.add('createpost-title');
 
     const upperDiv = document.createElement('div');
     upperDiv.classList.add('newpost-upperdiv');
@@ -78,11 +80,11 @@ function createPost(navigateTo) {
 
     const content = document.createElement('h4');
     content.innerText = 'Content';
-    content.placeholder = 'Ask/Share your experience, recommendation, etc.';
     content.classList.add('newpost-headings');
 
     const contentInput = document.createElement('input');
-    contentInput.classList.add('newpost-inputs');
+    contentInput.classList.add('newpost-inputs', 'post-content');
+    contentInput.placeholder = 'Ask/Share your experience, recommendation, etc.';
 
     const contentDiv = document.createElement('div');
     contentDiv.classList.add('newpost-content');
@@ -92,15 +94,53 @@ function createPost(navigateTo) {
     postBtn.textContent = 'Upload';
     postBtn.type = 'submit';
     postBtn.classList.add('newpost-upload-btn');
-    
-    postBtn.addEventListener('submit', () => {
-        publishPost();
-        console.log('post created');
-    });
 
     const postForm = document.createElement('form');
     postForm.classList.add('newpost-form');
     postForm.append(titleDiv, locationDiv, contentDiv, postBtn);
+    
+    postForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+      
+        const user = auth.currentUser;
+      if(user) {
+
+          const userId = user.uid;
+          const author = user.displayName;
+          const location = locationInput.value;
+          const date = serverTimestamp();
+          const title = titleInput.value;
+          const content = contentInput.value;
+
+          const userDocRef = await doc(db, 'Users', user.email);
+          console.log('userDocRef', userDocRef);
+          console.log('current user', auth.currentUser);
+          console.log('user', user);
+          const userDocSnap = await getDoc(userDocRef);
+          console.log('userDocSnap', userDocSnap);
+    
+
+          const anyFieldIsEmpty = !title || !location || !content;
+      
+          if (anyFieldIsEmpty) {
+            console.log('Empty fields');
+            alert('One or more fields are empty');
+          } else {
+            try {
+              console.log('post created');
+              await publishPost(userId, author, location, date, title, content);
+              console.log('username', author);
+              await displayPosts();
+              navigateTo('/feed');
+            } catch (error) {
+              console.error('Error creating post:', error);
+            }
+          }
+        } else {
+            console.log('User not authenticated');
+            // Aquí puedes manejar el caso donde el usuario no está autenticado
+          }
+      });
 
     postSection.append(upperMenu, upperDiv, postForm);
     return postSection;
