@@ -21,6 +21,9 @@ import {
   getDoc,
   getDocs,
   doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
 } from 'firebase/firestore';
 
 // Project Credentials
@@ -75,4 +78,7 @@ export {
   getDocs,
   doc,
   updateProfile,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
 };

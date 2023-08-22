@@ -2,8 +2,10 @@ import { orderBy } from 'firebase/firestore';
 import {
   auth,
   db,
+  doc,
   addDoc,
   getDocs,
+  getDoc,
   collection,
   // firebaseApp,
   createUserWithEmailAndPassword,
@@ -13,6 +15,9 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   updateProfile,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
 } from '../helpers/firebase-init';
 
 /* function showMessage(message, containerId) {
@@ -69,7 +74,7 @@ function userLogin(email, password) {
   return signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const loggedInUser = userCredential.user;
-
+console.log('userid', userCredential.user);
       if (!loggedInUser.emailVerified) {
         const errorMessage = 'Email has not been verified yet. Please check your inbox.';
         return { success: false, error: errorMessage };
@@ -112,15 +117,19 @@ function logOut() {
 }
 
 //Add/ save posts
-function publishPost(userId, author, location, date, title, content) {
-  addDoc(collection(db, 'Posts'), {
+async function publishPost(userId, author, location, date, title, content) {
+  const docRef = addDoc(collection(db, 'Posts'), {
     userId,
     author,
     location,
     date,
     title,
     content,
+    likesArr: [],
+    likesCount: 0,
   });
+  
+  return docRef.id;
 }
 
 
@@ -135,6 +144,38 @@ async function displayPosts() {
   }); */
 }
 
+// Like Posts
+async function likePosts(newPostId) {
+  const postRef = doc(db, 'Posts', newPostId);
+  const postDoc = await getDoc(postRef);
+
+  if (postDoc.exists()) {
+    const data = postDoc.data();
+    const userUid = auth.currentUser.uid;
+
+    if (data.likesArr && data.likesArr[userUid]) {
+      // Usuario ya dio like, eliminar el campo del usuario en likesArr
+      const updatedLikesArr = { ...data.likesArr };
+      delete updatedLikesArr[userUid];
+
+      await updateDoc(postRef, {
+        likesArr: updatedLikesArr,
+        likesCount: data.likesCount - 1,
+      });
+
+      return false;
+    } else {
+      // Usuario no ha dado like, agregar su ID al campo de likesArr
+      await updateDoc(postRef, {
+        [`likesArr.${userUid}`]: true,
+        likesCount: data.likesCount + 1,
+      });
+      return true;
+    }
+  }
+}
+
+
 export {
   newUser,
   userLogin,
@@ -142,4 +183,5 @@ export {
   logOut,
   publishPost,
   displayPosts,
+  likePosts
 };

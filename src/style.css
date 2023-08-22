@@ -338,6 +338,18 @@ body {
     padding: 13px;
 }
 
+.like-edit-post {
+    display: flex;
+    gap:10px;
+    justify-content: end;
+}
+
+.fa-pen, .fa-solid {
+    color: #2F4554;
+}
+.user-liked {
+    color: red;
+}
 .bottom-menu {
     border-top: 1px solid rgb(101, 101, 101);
     height: 60px;

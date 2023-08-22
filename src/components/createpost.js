@@ -1,4 +1,4 @@
-import { logOut, publishPost, displayPosts, newUser, userLogin} from '../lib/index';
+import { logOut, publishPost, displayPosts, likePosts, newUser, userLogin} from '../lib/index';
 
 import { auth, serverTimestamp, doc, getDoc, db, collection,} from '../helpers/firebase-init';
 
@@ -111,6 +111,7 @@ function createPost(navigateTo) {
           const date = serverTimestamp();
           const title = titleInput.value;
           const content = contentInput.value;
+          const likes = likePosts();
 
           const userDocRef = await doc(db, 'Users', user.email);
           console.log('userDocRef', userDocRef);
@@ -128,7 +129,7 @@ function createPost(navigateTo) {
           } else {
             try {
               console.log('post created');
-              await publishPost(userId, author, location, date, title, content);
+              await publishPost(userId, author, location, date, title, content, likes);
               console.log('username', author);
               await displayPosts();
               navigateTo('/feed');

@@ -1,4 +1,4 @@
-import { displayPosts, logOut } from '../lib/index';
+import { displayPosts, likePosts, logOut } from '../lib/index';
 
 function feed(navigateTo) {
   const section = document.createElement('section');
@@ -61,19 +61,35 @@ function feed(navigateTo) {
       const postsData = [];
       
       postsSnapshot.forEach((doc) => {
-        postsData.push(doc.data());
+        const post = doc.data();
+        post.id = doc.id; // Agrega el ID del documento al objeto post
+      postsData.push(post);
       });
       
       const postsHTML = generatePostsHTML(postsData); // Generar el HTML de los posts
       console.log('html posts', generatePostsHTML(postsData));
       postsContainer.innerHTML = postsHTML;
+
+      const likeBtns = postsContainer.querySelectorAll('.fa-solid.fa-heart');
+    likeBtns.forEach((icon) => {
+      icon.addEventListener('click', async () => {
+        const postId = icon.getAttribute('data-postid');
+        const userLiked = await likePosts(postId);
+
+        if (userLiked) {
+          icon.classList.add('user-liked')
+        } else {
+          icon.classList.remove('user-liked')
+        }
+      });
+    });
     } catch (error) {
       console.error('Error generating posts:', error);
     }
   };
   postContainer();
   
-  function generatePostsHTML(postsData) {
+  function generatePostsHTML(postsData, userLikes) {
     let html = '';
     
     postsData.forEach((post) => {
@@ -83,6 +99,8 @@ function feed(navigateTo) {
         month: 'short',
         day: 'numeric',
       });
+
+      const userLikedPost = userLikes.includes(post.id);
 
       html += `
         <div class="post">
@@ -98,6 +116,10 @@ function feed(navigateTo) {
           </div>
           <h4>${post.title}</h4>
           <p>${post.content}</p>
+          <div class= "like-edit-post">
+            <i class="fa-solid fa-pen"></i>
+            <i class="fa-solid fa-heart ${userLikedPost ? ' user-liked' : ''}"data-postid="${post.id}"></i>
+          </div>
         </div>
       `;
     });
