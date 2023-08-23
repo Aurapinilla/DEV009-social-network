@@ -68,4 +68,3 @@ describe('logOut', () => {
   });
 });
 
-// Test de las navegaciones de pagina

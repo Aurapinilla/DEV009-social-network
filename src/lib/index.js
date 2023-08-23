@@ -16,33 +16,7 @@ import {
   signInWithPopup,
   updateProfile,
   updateDoc,
-  arrayUnion,
-  arrayRemove,
 } from '../helpers/firebase-init';
-
-/* function showMessage(message, containerId) {
-   console.log(message);
-  const messageContainer = document.getElementById(containerId);
-  messageContainer.innerText = message;
-  messageContainer.style.display = 'block';
-} */
-
-/* function authErrors(error, containerId) {
-  let errorMessage = '';
-   console.log(error);
-   console.log('ERROR.CODE', error.code);
-  if (error.code === 'auth/wrong-password') {
-    errorMessage = 'Wrong password. Please try again.';
-  } else if (error.code === 'auth/missing-password') {
-    errorMessage = 'Please provide your password.';
-  } else if (error.code === 'auth/invalid-email') {
-    errorMessage = 'Invalid email. Please type a valid email address.';
-  } else {
-    errorMessage = error;
-  }
-   console.log(errorMessage);
-  showMessage(errorMessage, containerId);
-} */
 
 async function newUser(name, userInput, email, password) {
   try {
@@ -74,7 +48,7 @@ function userLogin(email, password) {
   return signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const loggedInUser = userCredential.user;
-console.log('userid', userCredential.user);
+      console.log('userid', userCredential.user);
       if (!loggedInUser.emailVerified) {
         const errorMessage = 'Email has not been verified yet. Please check your inbox.';
         return { success: false, error: errorMessage };
@@ -136,12 +110,14 @@ async function publishPost(userId, author, location, date, title, content) {
 async function displayPosts() {
   const postsCollection = collection(db, 'Posts');
   const querySnapshot = await getDocs(postsCollection, orderBy('date', 'desc'));
-  console.log('querysnapshot', querySnapshot);
-  return querySnapshot;
-  
- /* querySnapshot.forEach((doc) => {
-    console.log('posts', doc.data());
-  }); */
+
+  const orderedPosts = querySnapshot.docs.sort((a, b) => {
+    const dateA = a.data().date.toDate();
+    const dateB = b.data().date.toDate();
+    return dateB - dateA;
+  });  
+
+  return orderedPosts;
 }
 
 // Like Posts
@@ -154,7 +130,6 @@ async function likePosts(newPostId) {
     const userUid = auth.currentUser.uid;
 
     if (data.likesArr && data.likesArr[userUid]) {
-      // Usuario ya dio like, eliminar el campo del usuario en likesArr
       const updatedLikesArr = { ...data.likesArr };
       delete updatedLikesArr[userUid];
 
@@ -165,16 +140,20 @@ async function likePosts(newPostId) {
 
       return false;
     } else {
-      // Usuario no ha dado like, agregar su ID al campo de likesArr
       await updateDoc(postRef, {
         [`likesArr.${userUid}`]: true,
         likesCount: data.likesCount + 1,
       });
+      //updatedLikesArr[userUid];
       return true;
     }
   }
 }
 
+// BARRA DE BUSQUEDA POR MATCH
+// FOTO DEL USUARIO Y PERFIL
+// FILTRAR POR LAS QUE LIKEO EL USUARIO
+// SUBIR FOTOS AL POST
 
 export {
   newUser,

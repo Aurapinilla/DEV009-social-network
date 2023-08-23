@@ -1,4 +1,5 @@
 import { displayPosts, likePosts, logOut } from '../lib/index';
+import { auth, doc, db, onSnapshot, getDoc } from '../helpers/firebase-init';
 
 function feed(navigateTo) {
   const section = document.createElement('section');
@@ -59,72 +60,92 @@ function feed(navigateTo) {
       const postsSnapshot = await displayPosts();
       console.log('postsnapshots', postsSnapshot);
       const postsData = [];
+      const userLikes = {};
       
       postsSnapshot.forEach((doc) => {
         const post = doc.data();
-        post.id = doc.id; // Agrega el ID del documento al objeto post
+        post.id = doc.id;
       postsData.push(post);
-      });
-      
-      const postsHTML = generatePostsHTML(postsData); // Generar el HTML de los posts
-      console.log('html posts', generatePostsHTML(postsData));
-      postsContainer.innerHTML = postsHTML;
 
-      const likeBtns = postsContainer.querySelectorAll('.fa-solid.fa-heart');
-    likeBtns.forEach((icon) => {
-      icon.addEventListener('click', async () => {
-        const postId = icon.getAttribute('data-postid');
-        const userLiked = await likePosts(postId);
-
-        if (userLiked) {
-          icon.classList.add('user-liked')
-        } else {
-          icon.classList.remove('user-liked')
+        if (post.likesArr && post.likesArr[auth.currentUser.uid]) {
+          userLikes[post.id] = true;
         }
       });
-    });
+      
+      generatePostsHTML(postsData, userLikes);
     } catch (error) {
       console.error('Error generating posts:', error);
     }
   };
   postContainer();
-  
-  function generatePostsHTML(postsData, userLikes) {
+
+  async function generatePostsHTML(postsData, userLikes) {
     let html = '';
-    
-    postsData.forEach((post) => {
-
-      const formatDate = post.date.toDate().toLocaleDateString(undefined, {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      });
-
-      const userLikedPost = userLikes.includes(post.id);
-
+  
+    for (const post of postsData) {
+  
+      const userLiked = userLikes[post.id];
+      const numLikes = post.likesCount;
+      console.log('initiallikes', numLikes);
+      
       html += `
         <div class="post">
-          <div class = "post-header">
-            <div class = "author-location">
+          <div class="post-header">
+            <div class="author-location">
               <p>Author: ${post.author}</p>
-              <div class = "post-location">
+              <div class="post-location">
                 <i class="fa-solid fa-map-pin"></i>
                 <p>${post.location}</p>
-              </div>  
-            </div>  
-              <p>${formatDate}</p>  
+              </div>
+            </div>
+            <p>${post.date.toDate().toLocaleDateString()}</p>
           </div>
           <h4>${post.title}</h4>
           <p>${post.content}</p>
-          <div class= "like-edit-post">
+          <div class="like-edit-post">
             <i class="fa-solid fa-pen"></i>
-            <i class="fa-solid fa-heart ${userLikedPost ? ' user-liked' : ''}"data-postid="${post.id}"></i>
+            <i class="fa-solid fa-heart ${userLiked ? 'user-liked' : ''}" data-postid="${post.id}"></i>
+            <span class="likes-count" id="likes-count-${post.id}">${numLikes}</span>
           </div>
         </div>
       `;
+    };
+
+
+    postsContainer.innerHTML = html;
+
+    const likeBtns = postsContainer.querySelectorAll('.fa-solid.fa-heart');
+    likeBtns.forEach(async (icon) => {
+    const postId = icon.getAttribute('data-postid');
+    const postRef = doc(db, 'Posts', postId);
+
+    const docSnapshot = await getDoc(postRef);
+    const postData = docSnapshot.data();
+    const loggedUser = auth.currentUser.uid;
+
+    if (postData.likesArr && postData.likesArr[loggedUser]) {
+      icon.style.color = 'red';
+    }
+
+    icon.addEventListener('click', async () => {
+      const userLiked = await likePosts(postId);
+
+      if (userLiked) {
+        icon.style.color = 'red';
+      } else {
+        icon.style.color = '#2F4554';
+      }
     });
-    
-    return html;
+  });
+
+    postsData.forEach((post) => {
+      const postRef = doc(db, 'Posts', post.id);
+      onSnapshot(postRef, (snapshot) => {
+        const updatedLikesCount = snapshot.data().likesCount;
+        const likesCountSpan = document.getElementById(`likes-count-${post.id}`);
+        likesCountSpan.textContent = updatedLikesCount.toString();
+      });
+    });
   }
 
   const bottomMenu = document.createElement('div');

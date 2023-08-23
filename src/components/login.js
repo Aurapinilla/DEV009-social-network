@@ -11,11 +11,11 @@ function handleLogin(emailValue, passwordValue, navigateTo) {
   userLogin(emailValue, passwordValue)
     .then((result) => {
       if (result.error) {
-        showLogMessage(result.error); // Mostrar el mensaje de error
-        return; // Sale de la función si hay un error
+        showLogMessage(result.error);
+        return;
       }
 
-      navigateTo('/feed'); // Redireccionar solo si no hay errores
+      navigateTo('/feed');
     })
     .catch((error) => {
       showLogMessage(error);

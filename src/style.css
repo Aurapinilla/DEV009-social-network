@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+  }
+
 body {
     background: #85C2EE;
     margin: 0;
@@ -344,12 +348,10 @@ body {
     justify-content: end;
 }
 
-.fa-pen, .fa-solid {
+.fa-pen, .fa-heart {
     color: #2F4554;
 }
-.user-liked {
-    color: red;
-}
+
 .bottom-menu {
     border-top: 1px solid rgb(101, 101, 101);
     height: 60px;

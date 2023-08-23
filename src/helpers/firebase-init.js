@@ -24,6 +24,7 @@ import {
   updateDoc,
   arrayUnion,
   arrayRemove,
+  onSnapshot,
 } from 'firebase/firestore';
 
 // Project Credentials
@@ -81,4 +82,5 @@ export {
   updateDoc,
   arrayUnion,
   arrayRemove,
+  onSnapshot,
 };
