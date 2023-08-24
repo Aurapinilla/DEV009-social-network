@@ -16,6 +16,7 @@ import {
   signInWithPopup,
   updateProfile,
   updateDoc,
+  deleteDoc,
 } from '../helpers/firebase-init';
 
 async function newUser(name, userInput, email, password) {
@@ -121,8 +122,8 @@ async function displayPosts() {
 }
 
 // Like Posts
-async function likePosts(newPostId) {
-  const postRef = doc(db, 'Posts', newPostId);
+async function likePosts(postId) {
+  const postRef = doc(db, 'Posts', postId);
   const postDoc = await getDoc(postRef);
 
   if (postDoc.exists()) {
@@ -150,6 +151,11 @@ async function likePosts(newPostId) {
   }
 }
 
+// Dele post
+async function deletePost(postId) {
+await deleteDoc(doc(db, "Posts", postId));
+}
+
 // BARRA DE BUSQUEDA POR MATCH
 // FOTO DEL USUARIO Y PERFIL
 // FILTRAR POR LAS QUE LIKEO EL USUARIO
@@ -162,5 +168,6 @@ export {
   logOut,
   publishPost,
   displayPosts,
-  likePosts
+  likePosts,
+  deletePost,
 };

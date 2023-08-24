@@ -342,15 +342,21 @@ body {
     padding: 13px;
 }
 
-.like-edit-post {
-    display: flex;
-    gap:10px;
-    justify-content: end;
-}
-
-.fa-pen, .fa-heart {
+.fa-trash-can, .fa-pen, .fa-heart, .likes-count{
     color: #2F4554;
 }
+
+.edit-delete-post {
+    display: flex;
+    gap: 13px;
+}
+
+.post-settings {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 
 .bottom-menu {
     border-top: 1px solid rgb(101, 101, 101);

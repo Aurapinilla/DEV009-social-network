@@ -25,6 +25,7 @@ import {
   arrayUnion,
   arrayRemove,
   onSnapshot,
+  deleteDoc,
 } from 'firebase/firestore';
 
 // Project Credentials
@@ -83,4 +84,5 @@ export {
   arrayUnion,
   arrayRemove,
   onSnapshot,
+  deleteDoc,
 };

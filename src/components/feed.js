@@ -1,4 +1,4 @@
-import { displayPosts, likePosts, logOut } from '../lib/index';
+import { displayPosts, likePosts, deletePost, logOut } from '../lib/index';
 import { auth, doc, db, onSnapshot, getDoc } from '../helpers/firebase-init';
 
 function feed(navigateTo) {
@@ -79,6 +79,7 @@ function feed(navigateTo) {
   };
   postContainer();
 
+  //REVISAR FUNCION => ERROR EN CONSOLA CON LA FECHA
   async function generatePostsHTML(postsData, userLikes) {
     let html = '';
   
@@ -102,18 +103,60 @@ function feed(navigateTo) {
           </div>
           <h4>${post.title}</h4>
           <p>${post.content}</p>
-          <div class="like-edit-post">
-            <i class="fa-solid fa-pen"></i>
-            <i class="fa-solid fa-heart ${userLiked ? 'user-liked' : ''}" data-postid="${post.id}"></i>
-            <span class="likes-count" id="likes-count-${post.id}">${numLikes}</span>
-          </div>
+          <div class= "post-settings">
+            <div class= "edit-delete-post" id= "editDeletePost">
+              <i class="fa-solid fa-trash-can" data-postid="${post.id}"></i>
+              <i class="fa-solid fa-pen" data-postid="${post.id}"></i>
+            </div>
+            <div class="like-post">
+              <i class="fa-solid fa-heart ${userLiked ? 'user-liked' : ''}" data-postid="${post.id}"></i>
+              <span class="likes-count" id="likes-count-${post.id}">${numLikes}</span>
+            </div>
+          </div>  
         </div>
       `;
     };
 
-
     postsContainer.innerHTML = html;
 
+  // Los íconos editar/eliminar solo los ve el usuario que posteó
+    postsData.forEach(async (post) => {
+      const editPost = postsContainer.querySelectorAll(`.fa-pen[data-postid="${post.id}"]`);
+      const deletePost = postsContainer.querySelectorAll(`.fa-trash-can[data-postid="${post.id}"]`);
+
+      const postRef = doc(db, 'Posts', post.id);
+      const docSnapshot = await getDoc(postRef);
+      const postData = docSnapshot.data();
+      const loggedUser = auth.currentUser.uid;
+      console.log('loggeduser', loggedUser);
+      console.log('autor', postData.userId);
+
+      if (loggedUser !== postData.userId) {
+    
+        editPost.forEach(editIcon => {
+          editIcon.style.display = 'none';
+        });
+    
+        deletePost.forEach(deleteIcon => {
+          deleteIcon.style.display = 'none';
+        });
+      }
+    });
+
+    // Delete post
+    //FALTA QUE SE ACTUALICE EL HTML SIN TENER QUE RECARGAR LA PAGINA
+    postsData.forEach((post) => {
+      const deleteIcons = postsContainer.querySelectorAll(`.fa-trash-can[data-postid="${post.id}"]`);
+
+      deleteIcons.forEach((icon) => {
+        icon.addEventListener('click', async () => {
+          await deletePost(post.id);
+          generatePostsHTML();
+        });
+      })
+    });
+
+    // Like post
     const likeBtns = postsContainer.querySelectorAll('.fa-solid.fa-heart');
     likeBtns.forEach(async (icon) => {
     const postId = icon.getAttribute('data-postid');
@@ -122,7 +165,7 @@ function feed(navigateTo) {
     const docSnapshot = await getDoc(postRef);
     const postData = docSnapshot.data();
     const loggedUser = auth.currentUser.uid;
-
+    
     if (postData.likesArr && postData.likesArr[loggedUser]) {
       icon.style.color = 'red';
     }
@@ -138,15 +181,15 @@ function feed(navigateTo) {
     });
   });
 
-    postsData.forEach((post) => {
-      const postRef = doc(db, 'Posts', post.id);
-      onSnapshot(postRef, (snapshot) => {
-        const updatedLikesCount = snapshot.data().likesCount;
-        const likesCountSpan = document.getElementById(`likes-count-${post.id}`);
-        likesCountSpan.textContent = updatedLikesCount.toString();
-      });
+  postsData.forEach((post) => {
+    const postRef = doc(db, 'Posts', post.id);
+    onSnapshot(postRef, (snapshot) => {
+      const updatedLikesCount = snapshot.data().likesCount;
+      const likesCountSpan = document.getElementById(`likes-count-${post.id}`);
+      likesCountSpan.textContent = updatedLikesCount.toString();
     });
-  }
+  });
+}
 
   const bottomMenu = document.createElement('div');
   bottomMenu.classList.add('bottom-menu');
