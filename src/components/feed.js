@@ -65,7 +65,7 @@ function feed(navigateTo) {
       postsSnapshot.forEach((doc) => {
         const post = doc.data();
         post.id = doc.id;
-      postsData.push(post);
+        postsData.push(post);
 
         if (post.likesArr && post.likesArr[auth.currentUser.uid]) {
           userLikes[post.id] = true;
@@ -128,8 +128,6 @@ function feed(navigateTo) {
       const docSnapshot = await getDoc(postRef);
       const postData = docSnapshot.data();
       const loggedUser = auth.currentUser.uid;
-      console.log('loggeduser', loggedUser);
-      console.log('autor', postData.userId);
 
       if (loggedUser !== postData.userId) {
     
@@ -144,14 +142,13 @@ function feed(navigateTo) {
     });
 
     // Delete post
-    //FALTA QUE SE ACTUALICE EL HTML SIN TENER QUE RECARGAR LA PAGINA
     postsData.forEach((post) => {
       const deleteIcons = postsContainer.querySelectorAll(`.fa-trash-can[data-postid="${post.id}"]`);
 
       deleteIcons.forEach((icon) => {
         icon.addEventListener('click', async () => {
           await deletePost(post.id);
-          generatePostsHTML();
+          postContainer();
         });
       })
     });
