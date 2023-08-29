@@ -139,7 +139,6 @@ function createPost(navigateTo) {
           }
         } else {
             console.log('User not authenticated');
-            // Aquí puedes manejar el caso donde el usuario no está autenticado
           }
       });
 

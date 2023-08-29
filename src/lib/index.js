@@ -157,6 +157,7 @@ async function getPostData(postId) {
   if (postSnap.exists()) {
     const postData = postSnap.data();
     console.log('getPost?', postData);
+    postData.id = postId;
     return postData;
   } else {
     console.log('Post does not exist');
@@ -165,10 +166,18 @@ async function getPostData(postId) {
 }
 
 // Edit post
-async function editPost(postId) {
-  const postData = await getPostData(postId);
-  console.log('gettingg', postData);
-  return postData;
+export async function editPost(postId, newTitle, newLocation, newContent) {
+  try {
+    const postRef = doc(db, 'Posts', postId);
+    await updateDoc(postRef, {
+      title: newTitle,
+      location: newLocation,
+      content: newContent
+    });
+    console.log('Post updated successfully');
+  } catch (e) {
+    console.error('Error updating post: ', e);
+  }
 }
 
 // Update doc in frestore
@@ -200,7 +209,6 @@ export {
   displayPosts,
   likePosts,
   deletePost,
-  editPost,
   getPostData,
   updatePostInFirestore,
 };

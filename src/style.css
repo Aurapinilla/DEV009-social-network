@@ -183,7 +183,8 @@ body {
 
 .newpost-upload-btn,
 .loginBtn,
-.signupBtn {
+.signupBtn,
+.updatePost-Btn {
     color: #FFFFFF;
     background-color: #85C2EE;
 }
@@ -202,6 +203,12 @@ body {
     font-weight: 800;
 }
 
+.updatePost-Btn {
+    font-size: 12px;
+    width: 90px;
+    height: 25px;
+    font-weight: light;
+}
 
 .newpost-upload-btn {
     margin-top: 15px;
@@ -414,6 +421,18 @@ body {
 
 .post-content {
     height: 120px;
+}
+
+.edit-post-form {
+    border: 1px solid black;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+.edit-post-form .newpost-inputs {
+    margin-bottom: 5px;
+    margin-top: 8px;
 }
 
 .icons {

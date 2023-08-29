@@ -2,14 +2,13 @@ import { showLogMessage, handleLogin, } from '../src/components/login.js';
 import login from '../src/components/login.js';
 import { userLogin, googleAuth, } from '../src/lib/index.js';
 
-// Mock userLogin and googleAuth functions
+
 jest.mock('../src/lib/index.js', () => ({
   userLogin: jest.fn(),
   googleAuth: jest.fn(),
 }));
 
 describe('login.js', () => {
-  // Mock the DOM elements and environment
   beforeAll(() => {
     document.body.innerHTML = `
       <div id="messageContainerl"></div>
@@ -23,6 +22,9 @@ describe('login.js', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
+
+  const navigateToMock = jest.fn();
+  const loginComponent = login(navigateToMock);
 
   describe('showLogMessage', () => {
     it('should set message in messageContainer', () => {
@@ -55,22 +57,34 @@ describe('login.js', () => {
     });
   });
 
-  it('should call handleLogin on form submission', async () => {
-    const navigateToMock = jest.fn();
-    const loginComponent = login(navigateToMock);
-    document.body.appendChild(loginComponent);
-    const emailInput = loginComponent.querySelector('input[type="email"]');
-    const passwordInput = loginComponent.querySelector('input[type="password"]');
-    const loginForm = loginComponent.querySelector('form');
-    userLogin.mockResolvedValue({ success: true });
+    it('should call handleLogin on form submission', async () => {
+      document.body.appendChild(loginComponent);
+      const emailInput = loginComponent.querySelector('input[type="email"]');
+      const passwordInput = loginComponent.querySelector('input[type="password"]');
+      const loginForm = loginComponent.querySelector('form');
+      userLogin.mockResolvedValue({ success: true });
     
-    emailInput.value = 'test@example.com'; // Use .value instead of .textContent
-    passwordInput.value = 'password123';   // Use .value instead of .textContent
-    loginForm.dispatchEvent(new Event('submit'));
+      emailInput.value = 'test@example.com';
+      passwordInput.value = 'password123'; 
+      loginForm.dispatchEvent(new Event('submit'));
     
-    await Promise.resolve();
+      await Promise.resolve();
     
-    expect(userLogin).toHaveBeenCalledWith('test@example.com', 'password123');
-    expect(navigateToMock).toHaveBeenCalledWith('/feed');
-  });
+      expect(userLogin).toHaveBeenCalledWith('test@example.com', 'password123');
+      expect(navigateToMock).toHaveBeenCalledWith('/feed');
+    });
+
+
+    describe('googleAuth', () => {
+        it('should call Google Auth when clicking login with Google button', async () => {
+          const googleLogin = loginComponent.querySelector('.google-login');
+      
+          googleLogin.click();
+      
+          await Promise.resolve();
+      
+          expect(googleAuth).toHaveBeenCalled();
+          expect(navigateToMock).toHaveBeenCalledWith('/feed');
+        });
+    });
 });

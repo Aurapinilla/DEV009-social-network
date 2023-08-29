@@ -81,14 +81,9 @@ function login(navigateTo) {
   googleDiv.append(googleLogo, googleLog);
   googleDiv.classList.add('googleBtn');
 
-  googleDiv.addEventListener('click', () => {
-    googleAuth()
-      .then(() => {
-        navigateTo('/feed');
-      })
-      .catch((error) => {
-        showLogMessage(error);
-      });
+  googleDiv.addEventListener('click', async () => {
+    await googleAuth();
+    navigateTo('/feed');
   });
 
   // Navigation to Sign Up

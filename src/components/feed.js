@@ -164,65 +164,106 @@ function feed(navigateTo) {
     // Edit post
 // ...
     
+// Función para crear el formulario de edición
 function createEditForm(postData) {
+
   const editForm = document.createElement('form');
+  editForm.id = 'editForm';
   editForm.classList.add('edit-post-form');
+
+  const cancelBtn = document.createElement('i');
+    cancelBtn.setAttribute('class', 'fa-solid fa-square-xmark');
+    cancelBtn.classList.add('cancel-post', 'icons');
+    cancelBtn.type = 'button';
+    cancelBtn.addEventListener('click', () => {
+      navigateTo('/feed');
+    })
   
   const titleInput = document.createElement('input');
   titleInput.type = 'text';
-  titleInput.value = postData.title;
-  titleInput.classList.add('newpost-inputs');
+  titleInput.innerHTML = postData.title;
+  titleInput.classList.add('newpost-inputs', 'edit-title');
+  console.log('titulopost', titleInput);
   
   const locationInput = document.createElement('input');
   locationInput.type = 'text';
-  locationInput.value = postData.location;
-  locationInput.classList.add('newpost-inputs');
+  locationInput.innerHTML = postData.location;
+  locationInput.classList.add('newpost-inputs', 'edit-location');
+  console.log('locationpost', locationInput);
   
   const contentTextarea = document.createElement('textarea');
-  contentTextarea.value = postData.content;
+  contentTextarea.innerHTML = postData.content;
   contentTextarea.classList.add('newpost-inputs', 'post-content');
   
   const updateButton = document.createElement('button');
   updateButton.textContent = 'Update Post';
   updateButton.type = 'button';
+  updateButton.classList.add('updatePost-Btn', 'buttons')
   
   updateButton.addEventListener('click', async () => {
     const newTitle = titleInput.value;
     const newLocation = locationInput.value;
     const newContent = contentTextarea.value;
-  
-    await updatePostInFirestore(postData.id, newTitle, newLocation, newContent);
-    // Actualizar la visualización del post en la página si es necesario
+
+    await editPost(postData.id, newTitle, newLocation, newContent);
+    postContainer();
   });
   
-  editForm.append(titleInput, locationInput, contentTextarea, updateButton);
-  
+  editForm.append(cancelBtn, titleInput, locationInput, contentTextarea, updateButton);
+  console.log('postid', postData.id);
+  console.log('EDITFORM', editForm);
   return editForm;
 } 
 
-    postsData.forEach((post) => {
-      const editIcons = postsContainer.querySelectorAll(`.fa-pen[data-postid="${post.id}"]`);
-      
-      editIcons.forEach((icon) => {
-        icon.addEventListener('click', async () => {
-          // Obtener los datos del post
-          const postData = await getPostData(post.id);
-      
-          // Crear el formulario de edición
-          const editForm = createEditForm(postData);
-      
-          // Reemplazar el contenido actual del post con el formulario de edición
-          const postElement = icon.closest('.post');
-          const postContent = postElement.querySelector('.post-content');
-          if (postContent) {
-            postContent.innerHTML = '';  // Limpiar el contenido actual
-            postContent.appendChild(editForm);  // Mostrar el formulario de edición
-          } else {
-            console.error('postContent is null or undefined');
-          }
-        });
-      });
-    });
+// Función para manejar el clic en el ícono de editar
+async function handleEditIconClick(icon) {
+  const postId = icon.getAttribute('data-postid');
+  const postData = await getPostData(postId);
+
+  if (postData) {
+    const editForm = createEditForm(postData);
+    editForm.style.display = 'block';
+    // Crear un contenedor para el contenido del post y el formulario de edición
+    const postElement = icon.closest('.post');
+    let postContent = postElement.innerHTML;
+    const postContainer = document.createElement('div');
+
+    console.log('postcontainer', postContent);
+
+    if (postContent) {
+      // Mover el contenido actual al contenedor
+      postContainer.innerHTML = postContent;
+      console.log('postcontainer0', postContainer);
+      // Limpiar el contenido actual del postContent
+      postElement.innerHTML = '';
+      console.log('postcontainer1', postContainer);
+      // Agregar el formulario de edición al contenedor
+      postContainer.appendChild(editForm);
+      console.log('postcontainer2', postContainer);
+      // Agregar el contenedor con el contenido y el formulario al postContent
+      postElement.appendChild(postContainer);
+
+      // Popula los campos del formulario con la información actual del post
+      const titleInput = editForm.querySelector('.edit-title');
+      const locationInput = editForm.querySelector('.edit-location');
+      const contentTextarea = editForm.querySelector('.post-content');
+
+      titleInput.value = postData.title;
+      locationInput.value = postData.location;
+      contentTextarea.innerHTML = postData.content;
+      console.log('editform', editForm);
+
+    }
+  }
+}
+
+// Agregar evento de clic a los íconos de edición
+const editIcons = document.querySelectorAll('.fa-pen');
+editIcons.forEach((icon) => {
+  icon.addEventListener('click', () => {
+    handleEditIconClick(icon);
+  });
+});
     
     
 

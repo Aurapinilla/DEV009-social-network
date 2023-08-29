@@ -134,14 +134,9 @@ function register(navigateTo) {
   googleDiv.append(googleLogo, googleLog);
   googleDiv.classList.add('googleBtn');
 
-  googleDiv.addEventListener('click', () => {
-    googleAuth()
-      .then(() => {
-        navigateTo('/feed');
-      })
-      .catch((error) => {
-        showRegMessage(error);
-      });
+  googleDiv.addEventListener('click', async () => {
+    await googleAuth();
+    navigateTo('/feed');
   });
 
   const signUpBtns = document.createElement('div');
