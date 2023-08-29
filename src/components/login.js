@@ -48,6 +48,7 @@ function login(navigateTo) {
   email.textContent = 'Email:';
   const emailInput = document.createElement('input');
   emailInput.placeholder = 'email@example.com';
+  emailInput.type = 'email';
 
   const emailDiv = document.createElement('div');
   emailDiv.append(email, emailInput);
@@ -141,4 +142,4 @@ function login(navigateTo) {
 
 export default login;
 
-export { showLogMessage };
+export { showLogMessage, handleLogin, };

@@ -421,6 +421,9 @@ body {
     cursor: pointer;
     color: #2F4554;
 }
+.icons:hover {
+    color: #ffffff;
+}
 
 .newpost-headings {
     margin-bottom: 5px;

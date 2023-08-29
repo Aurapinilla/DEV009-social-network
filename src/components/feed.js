@@ -1,4 +1,12 @@
-import { displayPosts, likePosts, deletePost, logOut } from '../lib/index';
+import {
+  displayPosts,
+  likePosts,
+  deletePost,
+  logOut,
+  editPost,
+  updatePostInFirestore,
+  getPostData,
+} from '../lib/index';
 import { auth, doc, db, onSnapshot, getDoc } from '../helpers/firebase-init';
 
 function feed(navigateTo) {
@@ -99,7 +107,7 @@ function feed(navigateTo) {
                 <p>${post.location}</p>
               </div>
             </div>
-            <p>${post.date.toDate().toLocaleDateString()}</p>
+            <p>${post.date}</p>
           </div>
           <h4>${post.title}</h4>
           <p>${post.content}</p>
@@ -115,8 +123,8 @@ function feed(navigateTo) {
           </div>  
         </div>
       `;
+      console.log('date', post.date);
     };
-
     postsContainer.innerHTML = html;
 
   // Los íconos editar/eliminar solo los ve el usuario que posteó
@@ -152,6 +160,71 @@ function feed(navigateTo) {
         });
       })
     });
+
+    // Edit post
+// ...
+    
+function createEditForm(postData) {
+  const editForm = document.createElement('form');
+  editForm.classList.add('edit-post-form');
+  
+  const titleInput = document.createElement('input');
+  titleInput.type = 'text';
+  titleInput.value = postData.title;
+  titleInput.classList.add('newpost-inputs');
+  
+  const locationInput = document.createElement('input');
+  locationInput.type = 'text';
+  locationInput.value = postData.location;
+  locationInput.classList.add('newpost-inputs');
+  
+  const contentTextarea = document.createElement('textarea');
+  contentTextarea.value = postData.content;
+  contentTextarea.classList.add('newpost-inputs', 'post-content');
+  
+  const updateButton = document.createElement('button');
+  updateButton.textContent = 'Update Post';
+  updateButton.type = 'button';
+  
+  updateButton.addEventListener('click', async () => {
+    const newTitle = titleInput.value;
+    const newLocation = locationInput.value;
+    const newContent = contentTextarea.value;
+  
+    await updatePostInFirestore(postData.id, newTitle, newLocation, newContent);
+    // Actualizar la visualización del post en la página si es necesario
+  });
+  
+  editForm.append(titleInput, locationInput, contentTextarea, updateButton);
+  
+  return editForm;
+} 
+
+    postsData.forEach((post) => {
+      const editIcons = postsContainer.querySelectorAll(`.fa-pen[data-postid="${post.id}"]`);
+      
+      editIcons.forEach((icon) => {
+        icon.addEventListener('click', async () => {
+          // Obtener los datos del post
+          const postData = await getPostData(post.id);
+      
+          // Crear el formulario de edición
+          const editForm = createEditForm(postData);
+      
+          // Reemplazar el contenido actual del post con el formulario de edición
+          const postElement = icon.closest('.post');
+          const postContent = postElement.querySelector('.post-content');
+          if (postContent) {
+            postContent.innerHTML = '';  // Limpiar el contenido actual
+            postContent.appendChild(editForm);  // Mostrar el formulario de edición
+          } else {
+            console.error('postContent is null or undefined');
+          }
+        });
+      });
+    });
+    
+    
 
     // Like post
     const likeBtns = postsContainer.querySelectorAll('.fa-solid.fa-heart');

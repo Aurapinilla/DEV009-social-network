@@ -104,17 +104,17 @@ async function publishPost(userId, author, location, date, title, content) {
     likesCount: 0,
   });
   
-  return docRef.id;
+  return docRef;
 }
 
 
 async function displayPosts() {
   const postsCollection = collection(db, 'Posts');
-  const querySnapshot = await getDocs(postsCollection, orderBy('date', 'desc'));
+  const querySnapshot = await getDocs(postsCollection);
 
   const orderedPosts = querySnapshot.docs.sort((a, b) => {
-    const dateA = a.data().date.toDate();
-    const dateB = b.data().date.toDate();
+    const dateA = a.data().date;
+    const dateB = b.data().date;
     return dateB - dateA;
   });  
 
@@ -145,13 +145,43 @@ async function likePosts(postId) {
         [`likesArr.${userUid}`]: true,
         likesCount: data.likesCount + 1,
       });
-      //updatedLikesArr[userUid];
       return true;
     }
   }
 }
 
-// Dele post
+
+async function getPostData(postId) {
+  const postRef = doc(db, 'Posts', postId);
+  const postSnap = await getDoc(postRef);
+  if (postSnap.exists()) {
+    const postData = postSnap.data();
+    console.log('getPost?', postData);
+    return postData;
+  } else {
+    console.log('Post does not exist');
+    return null;
+  }
+}
+
+// Edit post
+async function editPost(postId) {
+  const postData = await getPostData(postId);
+  console.log('gettingg', postData);
+  return postData;
+}
+
+// Update doc in frestore
+async function updatePostInFirestore(postId, newTitle, newLocation, newContent) {
+  const postRef = doc(db, 'Posts', postId);
+  await updateDoc(postRef, {
+      title: newTitle,
+      location: newLocation,
+      content: newContent
+  });
+}
+
+// Delete post
 async function deletePost(postId) {
 await deleteDoc(doc(db, "Posts", postId));
 }
@@ -170,4 +200,7 @@ export {
   displayPosts,
   likePosts,
   deletePost,
+  editPost,
+  getPostData,
+  updatePostInFirestore,
 };
