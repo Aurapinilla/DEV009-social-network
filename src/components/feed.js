@@ -4,10 +4,16 @@ import {
   deletePost,
   logOut,
   editPost,
-  updatePostInFirestore,
   getPostData,
 } from '../lib/index';
+
 import { auth, doc, db, onSnapshot, getDoc } from '../helpers/firebase-init';
+
+function confirmDeletePost(postId) {
+  const deleteMessage = document.getElementById('deleteContainer');
+  deleteMessage.dataset.postId = postId;
+  deleteMessage.style.display = 'block';
+}
 
 function feed(navigateTo) {
   const section = document.createElement('section');
@@ -107,7 +113,7 @@ function feed(navigateTo) {
                 <p>${post.location}</p>
               </div>
             </div>
-            <p>${post.date}</p>
+            <p>${post.date.toDate().toLocaleDateString()}</p>
           </div>
           <h4>${post.title}</h4>
           <p>${post.content}</p>
@@ -154,17 +160,14 @@ function feed(navigateTo) {
       const deleteIcons = postsContainer.querySelectorAll(`.fa-trash-can[data-postid="${post.id}"]`);
 
       deleteIcons.forEach((icon) => {
+        const postId = icon.getAttribute('data-postid');
         icon.addEventListener('click', async () => {
-          await deletePost(post.id);
-          postContainer();
+          confirmDeletePost(postId);
         });
-      })
+      });
     });
-
-    // Edit post
-// ...
     
-// Función para crear el formulario de edición
+// Formulario de edición
 function createEditForm(postData) {
 
   const editForm = document.createElement('form');
@@ -215,7 +218,7 @@ function createEditForm(postData) {
   return editForm;
 } 
 
-// Función para manejar el clic en el ícono de editar
+// Al hacer clic en el ícono de editar
 async function handleEditIconClick(icon) {
   const postId = icon.getAttribute('data-postid');
   const postData = await getPostData(postId);
@@ -223,7 +226,7 @@ async function handleEditIconClick(icon) {
   if (postData) {
     const editForm = createEditForm(postData);
     editForm.style.display = 'block';
-    // Crear un contenedor para el contenido del post y el formulario de edición
+
     const postElement = icon.closest('.post');
     let postContent = postElement.innerHTML;
     const postContainer = document.createElement('div');
@@ -243,7 +246,6 @@ async function handleEditIconClick(icon) {
       // Agregar el contenedor con el contenido y el formulario al postContent
       postElement.appendChild(postContainer);
 
-      // Popula los campos del formulario con la información actual del post
       const titleInput = editForm.querySelector('.edit-title');
       const locationInput = editForm.querySelector('.edit-location');
       const contentTextarea = editForm.querySelector('.post-content');
@@ -252,7 +254,6 @@ async function handleEditIconClick(icon) {
       locationInput.value = postData.location;
       contentTextarea.innerHTML = postData.content;
       console.log('editform', editForm);
-
     }
   }
 }
@@ -325,7 +326,41 @@ editIcons.forEach((icon) => {
 
   bottomMenu.append(homeBtn, newPost, calendar);
 
-  section.append(upperMenu, upperSection, postsContainer, bottomMenu);
+  // Delete confirmation message
+  const confirmDelete = document.createElement('div');
+  confirmDelete.id = 'deleteContainer';
+  confirmDelete.classList.add('delete-confirmation', 'message-container');
+
+  const confirmMessage = document.createElement('p');
+  confirmMessage.textContent = 'Are you sure you want to delete this post?';
+
+  const confirmDeleteBtn = document.createElement('button');
+  confirmDeleteBtn.textContent = 'Yes';
+
+  // Delete post when click "Yes"
+  confirmDeleteBtn.addEventListener('click', async () => {
+    const postId = confirmDeleteBtn.closest('.delete-confirmation').dataset.postId;
+  
+    
+        await deletePost(postId);
+        postContainer();
+
+        const deleteMessage = document.getElementById('deleteContainer');
+        deleteMessage.style.display = 'none';
+  });
+
+
+  const cancelDeleteBtn = document.createElement('button');
+  cancelDeleteBtn.textContent = 'No';
+  // Cancel the delete of post
+  cancelDeleteBtn.addEventListener('click', () => {
+    confirmDelete.style.display = 'none';
+  })
+
+  confirmDelete.append(confirmMessage, confirmDeleteBtn, cancelDeleteBtn);
+  
+
+  section.append(upperMenu, upperSection, postsContainer, bottomMenu, confirmDelete);
   postContainer();
 
   return section;

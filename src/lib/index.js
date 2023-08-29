@@ -7,11 +7,9 @@ import {
   getDocs,
   getDoc,
   collection,
-  // firebaseApp,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendEmailVerification,
-  // sendPasswordResetEmail,
   GoogleAuthProvider,
   signInWithPopup,
   updateProfile,
@@ -180,25 +178,11 @@ export async function editPost(postId, newTitle, newLocation, newContent) {
   }
 }
 
-// Update doc in frestore
-async function updatePostInFirestore(postId, newTitle, newLocation, newContent) {
-  const postRef = doc(db, 'Posts', postId);
-  await updateDoc(postRef, {
-      title: newTitle,
-      location: newLocation,
-      content: newContent
-  });
-}
-
 // Delete post
 async function deletePost(postId) {
 await deleteDoc(doc(db, "Posts", postId));
 }
 
-// BARRA DE BUSQUEDA POR MATCH
-// FOTO DEL USUARIO Y PERFIL
-// FILTRAR POR LAS QUE LIKEO EL USUARIO
-// SUBIR FOTOS AL POST
 
 export {
   newUser,
@@ -210,5 +194,4 @@ export {
   likePosts,
   deletePost,
   getPostData,
-  updatePostInFirestore,
 };
