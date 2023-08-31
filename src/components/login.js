@@ -1,7 +1,6 @@
 import { userLogin, googleAuth } from '../lib/index';
 
 function showLogMessage(message) {
-   console.log(message)
   const containerL = document.getElementById('messageContainerl');
   containerL.innerText = message;
   containerL.style.display = 'block';
@@ -137,4 +136,4 @@ function login(navigateTo) {
 
 export default login;
 
-export { showLogMessage, handleLogin, };
+export { showLogMessage, handleLogin };

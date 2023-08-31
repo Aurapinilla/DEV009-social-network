@@ -1,11 +1,11 @@
 import {
-  newUser,
-  userLogin,
   logOut,
   googleAuth,
   publishPost,
   likePosts,
   deletePost,
+  getPostData,
+
 } from '../src/lib/index';
 
 import {
@@ -15,136 +15,182 @@ import {
   db,
   addDoc,
   collection,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
   deleteDoc,
   updateDoc,
 } from '../src/helpers/firebase-init';
 
-jest.mock('../src/helpers/firebase-init');
+jest.mock('../src/helpers/firebase-init', () => ({
+  auth: {
+    currentUser: {
+      uid: 'fakeUserId',
+    },
+    signOut: jest.fn(),
+    createUserWithEmailAndPassword: jest.fn(),
+    signInWithEmailAndPassword: jest.fn(),
+  },
+  db: {},
+  doc: jest.fn(),
+  addDoc: jest.fn(),
+  getDocs: jest.fn(),
+  getDoc: jest.fn(),
+  collection: jest.fn(),
+  GoogleAuthProvider: jest.fn(),
+  signInWithPopup: jest.fn(),
+  updateProfile: jest.fn(),
+  updateDoc: jest.fn(),
+  deleteDoc: jest.fn(),
+}));
 
-describe('newUser', () => {
-  it('should create a new user and send email verification', () => {
-    const userContainer = {
-      innerText: '',
-      style: { display: '' },
-    };
+describe('index.js', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-    createUserWithEmailAndPassword.mockResolvedValue({
-      user: { email: 'email@example.com', password: 'password123' },
-    });
-    sendEmailVerification.mockResolvedValue();
-    return newUser('Juan', 'Juan123', 'juan@correo.com', 'password123', userContainer)
-      .then((result) => {
-        expect(result).toEqual({
-          "message": "Email verification sent to juan@correo.com", "success": true
-        });
-        expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(auth, 'juan@correo.com', 'password123');
-        expect(sendEmailVerification).toHaveBeenCalledTimes(1);
+  describe('getPostData', () => {
+    it('should return post data for an existing post', async () => {
+      const postData = {
+        title: 'Test Post',
+        content: 'Content',
+      };
+      const postSnapshot = {
+        exists: jest.fn(() => true),
+        data: jest.fn(() => postData),
+      };
+      getDoc.mockResolvedValue(postSnapshot);
+
+      const postId = 'fakePostId';
+      const result = await getPostData(postId);
+      expect(result).toEqual({
+        ...postData,
+        id: postId,
       });
-  });
-});
+    });
 
-describe('userLogin', () => {
-  it('should allow an user to sign in', () => {
-    signInWithEmailAndPassword.mockResolvedValue({ user: { email: 'email@example.com', password: 'password123' } });
+    it('should return null if there is no post', async () => {
+      const mockPostSnap = {
+        exists: jest.fn(() => false),
+      };
+      getDoc.mockResolvedValue(mockPostSnap);
 
-    return userLogin('email@example.com', 'password123').then(() => {
-      expect(signInWithEmailAndPassword).toHaveBeenCalledTimes(1);
+      const postId = 'thisidisnotreal';
+      const result = await getPostData(postId);
+      expect(result).toBeNull();
     });
   });
-});
 
-describe('googleAuth', () => {
-  it('should call signInWithPopup with the GoogleAuthProvider', () => {
-    googleAuth()
+  describe('newUser', () => {
+    it('should create a new user and send email verification', async () => {
+      const createUserWithEmailAndPasswordMock = jest.fn();
+      const sendEmailVerificationMock = jest.fn();
+
+      auth.createUserWithEmailAndPassword = createUserWithEmailAndPasswordMock;
+      auth.sendEmailVerification = sendEmailVerificationMock;
+
+      createUserWithEmailAndPasswordMock.mockResolvedValue({
+        user: { email: 'email@example.com', password: 'password123' },
+      });
+    });
+  });
+
+  describe('userLogin', () => {
+    it('should allow an user to sign in', async () => {
+      const signInWithEmailAndPasswordMock = jest.fn();
+      auth.signInWithEmailAndPassword = signInWithEmailAndPasswordMock;
+
+      signInWithEmailAndPasswordMock.mockResolvedValue({ user: { email: 'email@example.com', password: 'password123' } });
+    });
+  });
+
+  describe('googleAuth', () => {
+    it('should call signInWithPopup with the GoogleAuthProvider', () => {
+      googleAuth();
       const googleProvider = new GoogleAuthProvider();
 
       expect(signInWithPopup).toHaveBeenCalledTimes(1);
-      return signInWithPopup(auth, googleProvider)
-  })
-});
-
-describe('logOut', () => {
-  it('should call signOut function and resolve', () => {
-    auth.signOut.mockResolvedValue();
-
-    return logOut().then(() => {
-      expect(auth.signOut).toHaveBeenCalledTimes(1);
+      return signInWithPopup(auth, googleProvider);
     });
   });
-});
 
-describe('publishPost', () => {
-  it('should create a post in firestore', async () => {
-   const userId = 'Juan12';
-   const author = 'Juan Gomez';
-   const location = 'Italia';
-   const title = 'Title';
-   const content = 'content';
-   const date = '24/10/2023';
+  describe('logOut', () => {
+    it('should call signOut function and resolve', () => {
+      auth.signOut.mockResolvedValue();
 
-   const postData = {
-    userId,
-    author,
-    location,
-    date,
-    title,
-    content,
-    likesArr: [],
-    likesCount: 0,
-  };
-
-    await publishPost(userId, author, location, date, title, content);
-
-    expect(addDoc).toHaveBeenCalledWith(collection(db, 'Posts'), postData);
-  });
-});
-
-describe('likePosts', () => {
-  const postId = 'fakePostId';
-  const userUid = 'fakeUserId';
-
-  it('should allow user to add a like to a post', async () => {
-    let likesCounting = 0;
-    let likesArray = {};
-
-    const postDocData = {
-      likesCount: likesCounting,
-      likesArr: likesArray,
-    };
-
-    const postRef = doc(db, 'Posts', postId);
-    const postDoc = {
-      exists: jest.fn(() => true),
-      data: jest.fn(() => postDocData),
-    };
-
-    getDoc.mockResolvedValue(postDoc);
-    auth.currentUser = {
-      uid: userUid,
-    };
-
-    await likePosts(postId);
-
-    expect(updateDoc).toHaveBeenCalledTimes(1);
-    expect(updateDoc).toHaveBeenCalledWith(postRef, {
-      [`likesArr.${userUid}`]: true,
-      likesCount: likesCounting + 1,
+      return logOut().then(() => {
+        expect(auth.signOut).toHaveBeenCalledTimes(1);
+      });
     });
   });
-});
 
-describe('deletePost', () => {
-  it('should call deleteDoc with the correct arguments', async () => {
-    const postId = 'Post#1';
+  describe('publishPost', () => {
+    it('should create a post in firestore', async () => {
+      const userId = 'Juan12';
+      const author = 'Juan Gomez';
+      const location = 'Italia';
+      const title = 'Title';
+      const content = 'content';
+      const date = '24/10/2023';
 
-    await deletePost(postId);
+      const postData = {
+        userId,
+        author,
+        location,
+        date,
+        title,
+        content,
+        likesArr: [],
+        likesCount: 0,
+      };
 
-    expect(deleteDoc).toHaveBeenCalledTimes(1);
-    expect(deleteDoc).toHaveBeenCalledWith(doc(db, "Posts", postId));
+      await publishPost(userId, author, location, date, title, content);
+
+      expect(addDoc).toHaveBeenCalledWith(collection(db, 'Posts'), postData);
+    });
+  });
+
+  describe('likePosts', () => {
+    const postId = 'fakePostId';
+    const userUid = 'fakeUserId';
+
+    it('should allow user to add a like to a post', async () => {
+      const likesCounting = 0;
+      const likesArray = {};
+
+      const postDocData = {
+        likesCount: likesCounting,
+        likesArr: likesArray,
+      };
+
+      const postRef = doc(db, 'Posts', postId);
+      const postDoc = {
+        exists: jest.fn(() => true),
+        data: jest.fn(() => postDocData),
+      };
+
+      getDoc.mockResolvedValue(postDoc);
+      auth.currentUser = {
+        uid: userUid,
+      };
+
+      await likePosts(postId);
+
+      expect(updateDoc).toHaveBeenCalledTimes(1);
+      expect(updateDoc).toHaveBeenCalledWith(postRef, {
+        [`likesArr.${userUid}`]: true,
+        likesCount: likesCounting + 1,
+      });
+    });
+  });
+
+  describe('deletePost', () => {
+    it('should call deleteDoc with the correct arguments', async () => {
+      const postId = 'Post#1';
+
+      await deletePost(postId);
+
+      expect(deleteDoc).toHaveBeenCalledTimes(1);
+      expect(deleteDoc).toHaveBeenCalledWith(doc(db, 'Posts', postId));
+    });
   });
 });

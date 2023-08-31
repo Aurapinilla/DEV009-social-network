@@ -3,33 +3,30 @@ import { newUser, googleAuth } from '../lib/index';
 import { saveUsers } from '../helpers/firebase-init';
 
 function showRegMessage(message) {
-   console.log(message);
   const containerR = document.getElementById('messageContainer');
   containerR.innerText = message;
   containerR.style.display = 'block';
 }
 
-function handleRegistration(name, userValue, emailValue, passwordValue, passwordConfirmValue, navigateTo) {
+function handleRegistration(
+  name,
+  userValue,
+  emailValue,
+  passwordValue,
+  passwordConfirmValue,
+  navigateTo,
+) {
   newUser(name, userValue, emailValue, passwordValue)
     .then((newUserResult) => {
-      console.log('New user result', newUserResult);
       showRegMessage(newUserResult.message);
       if (newUserResult.success) {
         return newUserResult;
-  
-      } else {
-        showRegMessage(newUserResult.error);
-        throw new Error(newUserResult.error);
       }
+      showRegMessage(newUserResult.error);
+      throw new Error(newUserResult.error);
     })
-    .then((newUserResult) => {
-      console.log('User saved in authentication:', newUserResult);
-      console.log('userName', name);
-      console.log('userr', userValue);
-      return saveUsers(name, userValue, emailValue, passwordValue);
-    })
+    .then(() => saveUsers(name, userValue, emailValue, passwordValue))
     .then(() => {
-      console.log('User saved');
       navigateTo('/');
     })
     .catch((error) => {
@@ -66,6 +63,7 @@ function register(navigateTo) {
   const nameU = document.createElement('h4');
   nameU.textContent = 'Name:';
   const nameInput = document.createElement('input');
+  nameU.classList.add('register-inputs');
   nameInput.id = 'name-imput';
   nameInput.placeholder = 'Ex: Jhon Evans';
   nameInput.type = 'text';
@@ -77,6 +75,7 @@ function register(navigateTo) {
   const userName = document.createElement('h4');
   userName.textContent = 'User:';
   const userInput = document.createElement('input');
+  userInput.classList.add('register-inputs');
   userInput.id = 'user-input';
   userInput.placeholder = 'Type your user';
   userInput.type = 'text';
@@ -88,6 +87,7 @@ function register(navigateTo) {
   const email = document.createElement('h4');
   email.textContent = 'Email:';
   const emailInput = document.createElement('input');
+  emailInput.classList.add('register-inputs');
   emailInput.id = 'email-input';
   emailInput.placeholder = 'email@example.com';
   emailInput.type = 'email';
@@ -99,6 +99,7 @@ function register(navigateTo) {
   const password = document.createElement('h4');
   password.textContent = 'Create Password:';
   const passwordInput = document.createElement('input');
+  passwordInput.classList.add('register-inputs');
   passwordInput.id = 'password-input';
   passwordInput.placeholder = '**********';
   passwordInput.type = 'password';
@@ -110,6 +111,7 @@ function register(navigateTo) {
   const confirmPassword = document.createElement('h4');
   confirmPassword.textContent = 'Confirm Password:';
   const confirmPasswordInput = document.createElement('input');
+  confirmPasswordInput.classList.add('register-inputs');
   confirmPasswordInput.placeholder = '**********';
   confirmPasswordInput.type = 'password';
 
@@ -182,7 +184,14 @@ function register(navigateTo) {
         const message = 'Password fields must be the same.';
         showRegMessage(message);
       } else {
-        handleRegistration(name, userValue, emailValue, passwordValue, passwordConfirmValue, navigateTo);
+        handleRegistration(
+          name,
+          userValue,
+          emailValue,
+          passwordValue,
+          passwordConfirmValue,
+          navigateTo,
+        );
       }
     }
   });

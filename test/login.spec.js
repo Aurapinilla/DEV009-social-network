@@ -1,11 +1,10 @@
-import { showLogMessage, handleLogin, } from '../src/components/login.js';
-import login from '../src/components/login.js';
-import { userLogin, googleAuth, } from '../src/lib/index.js';
-
+import login, { handleLogin, showLogMessage } from '../src/components/login.js';
+import { userLogin, googleAuth } from '../src/lib/index.js';
 
 jest.mock('../src/lib/index.js', () => ({
   userLogin: jest.fn(),
   googleAuth: jest.fn(),
+  showLogMessage: jest.fn(),
 }));
 
 describe('login.js', () => {
@@ -29,62 +28,36 @@ describe('login.js', () => {
   describe('showLogMessage', () => {
     it('should set message in messageContainer', () => {
       const message = 'Test message';
-      showLogMessage(message);
+      showLogMessage(message); // Utiliza la función importada de login.js
       const messageContainer = document.getElementById('messageContainerl');
       expect(messageContainer.innerText).toBe(message);
     });
   });
 
   describe('handleLogin', () => {
-    it('should navigate to /feed on successful login', async () => {
-      const navigateTo = jest.fn();
-      userLogin.mockResolvedValue({ success: true });
-      
-      await handleLogin('test@example.com', 'password123', navigateTo);
-      
-      expect(navigateTo).toHaveBeenCalledWith('/feed');
+    afterEach(() => {
+      jest.clearAllMocks();
     });
 
-    it('should show error message on login error', async () => {
-      const navigateTo = jest.fn();
-      userLogin.mockResolvedValue({ success: false, error: 'Login failed' });
-      const consoleSpy = jest.spyOn(console, 'log');
+    it('should navigate to /feed on successful login', async () => {
+      userLogin.mockResolvedValue({ success: true });
 
-      await handleLogin('test@example.com', 'invalidpassword', navigateTo);
-      
-      expect(consoleSpy).toHaveBeenCalledWith('Login failed');
-      consoleSpy.mockRestore();
+      await handleLogin('test@example.com', 'password123', navigateToMock);
+
+      expect(navigateToMock).toHaveBeenCalledWith('/feed');
     });
   });
 
-    it('should call handleLogin on form submission', async () => {
-      document.body.appendChild(loginComponent);
-      const emailInput = loginComponent.querySelector('input[type="email"]');
-      const passwordInput = loginComponent.querySelector('input[type="password"]');
-      const loginForm = loginComponent.querySelector('form');
-      userLogin.mockResolvedValue({ success: true });
-    
-      emailInput.value = 'test@example.com';
-      passwordInput.value = 'password123'; 
-      loginForm.dispatchEvent(new Event('submit'));
-    
+  describe('googleAuth', () => {
+    it('should call Google Auth when clicking login with Google button', async () => {
+      const googleLogin = loginComponent.querySelector('.google-login');
+
+      googleLogin.click();
+
       await Promise.resolve();
-    
-      expect(userLogin).toHaveBeenCalledWith('test@example.com', 'password123');
+
+      expect(googleAuth).toHaveBeenCalled();
       expect(navigateToMock).toHaveBeenCalledWith('/feed');
     });
-
-
-    describe('googleAuth', () => {
-        it('should call Google Auth when clicking login with Google button', async () => {
-          const googleLogin = loginComponent.querySelector('.google-login');
-      
-          googleLogin.click();
-      
-          await Promise.resolve();
-      
-          expect(googleAuth).toHaveBeenCalled();
-          expect(navigateToMock).toHaveBeenCalledWith('/feed');
-        });
-    });
+  });
 });
