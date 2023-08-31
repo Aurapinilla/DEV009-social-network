@@ -1,48 +1,40 @@
-# Creando una Red Social
+<div align="center">
+  <img src="./src/assets/logo 2.png" width="200px" alt="logo 2">
+</div>
+
+---
+
+# TravelTribe: Discover Together
 
 ## Índice
 
-* [1. Preámbulo](#1-preámbulo)
-* [2. Resumen del proyecto](#2-resumen-del-proyecto)
-* [3. Objetivos de aprendizaje](#3-objetivos-de-aprendizaje)
-* [4. Consideraciones generales](#4-consideraciones-generales)
+* [1. Introducción](#presentando-traveltribe-donde-los-exploradores-se-unen-en-todo-el-mundo)
+* [2. Funcionalidades](#funcionalidades)
+* [3. Historias de Usuario](#historias-de-usuario)
+* [4. Prototipos](#prototipos)
 * [5. Criterios de aceptación mínimos del proyecto](#5-criterios-de-aceptación-mínimos-del-proyecto)
 * [6. Hacker edition](#6-hacker-edition)
 * [7. Entrega](#7-entrega)
 * [8. Pistas, tips y lecturas complementarias](#8-pistas-tips-y-lecturas-complementarias)
 
-## 1. Preámbulo
+## Presentando TravelTribe: Donde los Exploradores se Unen en Todo el Mundo
 
-Instagram, Snapchat, Twitter, Facebook, Twitch, Linkedin, etc. Las redes
-sociales han invadido nuestras vidas. Las amamos u odiamos, y muchos no podemos
-vivir sin ellas.
+La aventura no tiene límites. Se trata de los lazos que forjas, las culturas que abrazas y las historias que creas. Bienvenido a TravelTribe, una innovadora plataforma social que trasciende fronteras, dirigida tanto a espíritus nómadas como a mochileros con presupuesto ajustado, así como a entusiastas de la cultura. Aquí, creemos que viajar no es solo un recorrido; es una experiencia compartida, una historia contada y un vínculo establecido.
 
-![adem-ay-Tk9m_HP4rgQ-unsplash](https://user-images.githubusercontent.com/110297/135544666-4efa54f1-4ff6-4c4c-b398-6df04ef56117.jpg)
 
-Hay redes sociales de todo tipo y para todo tipo de intereses. Por ejemplo,
-en una ronda de financiamiento con inversionistas, se presentó una red social
-para químicos en la que los usuarios podían publicar artículos sobre sus
-investigaciones, comentar en los artículos de sus colegas, y filtrar artículos
-de acuerdo a determinadas etiquetas o su popularidad, lo más reciente, o lo
-más comentado.
+## Funcionalidades
 
-## 2. Resumen del proyecto
+- **Narración Multimedia**: Conecta con otros viajeros compartiendo tus asombrosas experiencias y recomendaciones de los lugares que has visitado.
 
-En este proyecto construirás una Red Social sobre lo que decidan tú y tu equipo.
-Podría ser, por ejemplo, sobre alimentación saludable, feminismo, educación,
-salud, energías renovables, amantes de las [Empanadas](https://es.wikipedia.org/wiki/Empanada)
-o de los [Tacos de Canasta](https://es.wikipedia.org/wiki/Taco),
-de la [Feijoada](https://es.wikipedia.org/wiki/Feijoada), o de lo que sea.
+- **Consejos en Tiempo Real**: ¿Necesitas ideas para tu próxima aventura? Formula preguntas a la comunidad de TravelTribe y recibe recomendaciones personalizadas y consejos internos.
 
-Tu Red Social tendrá que permitir a cualquier usuario crear una cuenta de acceso
-y loguearse con ella; crear, editar, borrar y _"likear"_ publicacciones.
+- **Encuentros y Eventos**: Únete o crea eventos que se alineen con tus intereses, desde encuentros nómadas hasta exploraciones asequibles en la ciudad.
 
-Por lo tanto, en este proyecto construirás una
-[Single-page Application (SPA)](https://es.wikipedia.org/wiki/Single-page_application)
-[_responsive_](https://curriculum.laboratoria.la/es/topics/css/02-responsive) (con más de una vista / página)
-en la que podamos **leer y escribir datos**.
+- **Intercambio Cultural**: Conecta con exploradores afines que comparten tu pasión por las culturas, enriqueciendo tu viaje con interacciones significativas.
 
-### Los objetivos generales de este proyecto son los siguientes
+- **Interacción Vibrante en la Comunidad**: Forja relaciones con personas de todo el mundo y construye tu comunidad global.
+
+## Historias de Usuario
 
 * Desarrollar una SPA con temática de red social
 * Aplicar los conceptos de responsividad en el desarrollo de las vistas (templates)
@@ -53,9 +45,17 @@ en la que podamos **leer y escribir datos**.
 Para lograr estos objetivos, deberás aprender y hacer uso de las siguientes
 herramientas o habilidades técnicas:
 
-## 3. Objetivos de aprendizaje
+## Historias de Usuario
 
 Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en tu proyecto. Piensa en eso al decidir tu estrategia de trabajo.
+
+- [ ] **Perfiles de Usuario**
+
+<img src="./src/assets/UsuariosTT.png" alt="UsuariosTT">
+
+- [ ] **Historias de Usuario**
+
+<img src="./src/assets/HDU.png" alt="HDU">
 
 ### HTML
 
@@ -313,7 +313,7 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
   * [Obtén actualizaciones en tiempo real con Cloud Firestore - Documentación oficial](https://firebase.google.com/docs/firestore/query-data/listen?hl=es)
 </p></details>
 
-## 4. Consideraciones generales
+## Prototipos
 
 * Este proyecto se debe trabajar en equipos de tres.
 
