@@ -1,6 +1,6 @@
 import { newUser, googleAuth } from '../lib/index';
 import { saveUsers } from '../helpers/firebase-init';
-import logoTravelTribe from './assets/logo TravelTribe.png';
+import logoTravelTribe from './assets/logoTravelTribe.png';
 import google from './assets/google.png';
 
 function showRegMessage(message) {
