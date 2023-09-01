@@ -48,6 +48,11 @@
     "firebase-admin": "^11.10.1"
   },
   "jest": {
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "\\.(png)$":
+        "<rootDir>mockImage.js"
+    },
+    "modulePathIgnorePatterns": ["./src/assets"]
   }
 }

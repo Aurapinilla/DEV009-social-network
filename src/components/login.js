@@ -1,7 +1,8 @@
 import { userLogin, googleAuth } from '../lib/index';
-import logoTravelTribe from '../assets/logoTravelTribe.png';
-import google from '../assets/google.png';
 
+import logoTravelTribe from '../assets/logoTravelTribe.png';
+
+import google from '../assets/google.png';
 
 function showLogMessage(message) {
   const containerL = document.getElementById('messageContainerl');
