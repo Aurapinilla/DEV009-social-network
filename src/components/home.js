@@ -1,10 +1,12 @@
+import logoTravelTribe from '../assets/logoTravelTribe.png';
+
 function home(navigateTo) {
   // Main container section
   const section = document.createElement('section');
   section.classList.add('home-container');
   // header
   const logo = document.createElement('img');
-  logo.setAttribute('src', './assets/logo TravelTribe.png');
+  logo.src = logoTravelTribe;
   logo.classList.add('logo');
 
   const header = document.createElement('header');
