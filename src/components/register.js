@@ -1,6 +1,6 @@
 import { newUser, googleAuth } from '../lib/index';
 import { saveUsers } from '../helpers/firebase-init';
-import TravelTribe from './assets/logo TravelTribe.png';
+import logoTravelTribe from './assets/logo TravelTribe.png';
 import google from './assets/google.png';
 
 function showRegMessage(message) {
@@ -49,7 +49,7 @@ function register(navigateTo) {
   });
 
   const logo = document.createElement('img');
-  logo.setAttribute('src', TravelTribe);
+  logo.setAttribute('src', logoTravelTribe);
   logo.classList.add('logo');
 
   const header = document.createElement('header');
