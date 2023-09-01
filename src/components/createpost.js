@@ -6,7 +6,7 @@ import {
   auth, serverTimestamp,
 } from '../helpers/firebase-init';
 
-import logoTravelTribe from './assets/logoTravelTribe.png';
+import logoTravelTribe from '../assets/logoTravelTribe.png';
 
 function createPost(navigateTo) {
   const postSection = document.createElement('section');
@@ -16,7 +16,7 @@ function createPost(navigateTo) {
   upperMenu.classList.add('upperMenu');
 
   const logoMenu = document.createElement('img');
-  logoMenu.setAttribute('src', logoTravelTribe);
+  logoMenu.src = logoTravelTribe;
   logoMenu.classList.add('logo-menu');
 
   const userProfile = document.createElement('i');

@@ -1,6 +1,6 @@
 import { userLogin, googleAuth } from '../lib/index';
-import logoTravelTribe from './assets/logoTravelTribe.png';
-import google from './assets/google.png';
+import logoTravelTribe from '../assets/logoTravelTribe.png';
+import google from '../assets/google.png';
 
 
 function showLogMessage(message) {
@@ -38,7 +38,7 @@ function login(navigateTo) {
   });
 
   const logo = document.createElement('img');
-  logo.setAttribute('src', logoTravelTribe);
+  logo.src = logoTravelTribe;
   logo.classList.add('logo');
 
   const header = document.createElement('header');
@@ -74,7 +74,7 @@ function login(navigateTo) {
 
   // Google Auth
   const googleLogo = document.createElement('img');
-  googleLogo.setAttribute('src', google);
+  googleLogo.src = google;
   googleLogo.classList.add('logo-google');
   const googleLog = document.createElement('p');
   googleLog.textContent = 'Sign in with Google';
