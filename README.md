@@ -49,7 +49,7 @@ Posteriormente se definieron las Historias de Usuario, enfocadas en satisfacer l
 <img src="./src/assets/HDU.png" alt="HDU">
 
 
-## 4-Prototipos
+## 4-Prototipo
 
 Teniendo en cuenta la investigación y definición de los perfiles e historias de usuario, se propuso el siguiente prototipo de alta fidelidad. Posteriormente, este prototipo fue sometido a validaciones por parte de usuarios potenciales, donde se buscada validar aspectos relacionados con el diseño de la red social, facilidad de uso, cumplimiento de historias de usuraio, entre otros aspectos.
 

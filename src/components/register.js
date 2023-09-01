@@ -1,6 +1,7 @@
 import { newUser, googleAuth } from '../lib/index';
-
 import { saveUsers } from '../helpers/firebase-init';
+import TravelTribe from './assets/logo TravelTribe.png';
+import google from './assets/google.png';
 
 function showRegMessage(message) {
   const containerR = document.getElementById('messageContainer');
@@ -48,7 +49,7 @@ function register(navigateTo) {
   });
 
   const logo = document.createElement('img');
-  logo.setAttribute('src', './assets/logo TravelTribe.png');
+  logo.setAttribute('src', TravelTribe);
   logo.classList.add('logo');
 
   const header = document.createElement('header');
@@ -127,7 +128,7 @@ function register(navigateTo) {
 
   // Google Auth
   const googleLogo = document.createElement('img');
-  googleLogo.setAttribute('src', './assets/google.png');
+  googleLogo.setAttribute('src', google);
   googleLogo.classList.add('logo-google');
   const googleLog = document.createElement('p');
   googleLog.textContent = 'Sign in with Google';

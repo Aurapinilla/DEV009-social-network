@@ -11,6 +11,8 @@ import {
   auth, doc, db, onSnapshot, getDoc,
 } from '../helpers/firebase-init';
 
+import TravelTribe from './assets/logo TravelTribe.png';
+
 function confirmDeletePost(postId) {
   const deleteMessage = document.getElementById('deleteContainer');
   deleteMessage.dataset.postId = postId;
@@ -25,7 +27,7 @@ function feed(navigateTo) {
   upperMenu.classList.add('upperMenu');
 
   const logoMenu = document.createElement('img');
-  logoMenu.setAttribute('src', './assets/logo TravelTribe.png');
+  logoMenu.setAttribute('src', TravelTribe);
   logoMenu.classList.add('logo-menu');
 
   const userProfile = document.createElement('i');
