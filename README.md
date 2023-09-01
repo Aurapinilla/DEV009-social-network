@@ -34,101 +34,31 @@ La aventura no tiene límites. Se trata de los lazos que forjas, las culturas qu
 
 ## 3-Historias de Usuario
 
-cuéntanos brevemente cómo descubriste las necesidades de los usuarios y cómo llegaste a la definición final de tu producto. Es importante que detalles:
-
-Quiénes son los principales usuarios de producto.
-Qué problema resuelve el producto / para qué le servirá a estos usuarios..
+TravelTribe aborda desafíos identificados en la comunidad viajera a través de investigación. Conecta a viajeros solitarios al crear una comunidad global, y proporciona información confiable y auténtica directamente de personas que han explorado destinos. Facilita encontrar compañeros de viaje y organizar eventos, lo que fomenta conexiones profundas entre los aventureros. Además, fomenta el intercambio cultural y la conexión con culturas locales. TravelTribe simplifica la planificación de eventos y excursiones, al tiempo que inspira a futuros viajeros a través de experiencias compartidas y consejos. En resumen, TravelTribe es una solución integral que reúne a los amantes de los viajes y supera retos, formando una comunidad unida y enriquecedora.
 
 - **Perfiles de Usuario**
+
+Basado en lo anterior, se definieron los siguientes perfiles como potenciales usuarios y miembros de la comunidad TravelTribe.
 
 <img src="./src/assets/UsuariosTT.png" alt="UsuariosTT">
 
 - **Historias de Usuario**
+
+Posteriormente se definieron las Historias de Usuario, enfocadas en satisfacer las necesidades principales de los perfiles de usuario mencionados anteriormente.
 
 <img src="./src/assets/HDU.png" alt="HDU">
 
 
 ## 4-Prototipos
 
-* Este proyecto se debe trabajar en equipos de tres.
+Teniendo en cuenta la investigación y definición de los perfiles e historias de usuario, se propuso el siguiente prototipo de alta fidelidad. Posteriormente, este prototipo fue sometido a validaciones por parte de usuarios potenciales, donde se buscada validar aspectos relacionados con el diseño de la red social, facilidad de uso, cumplimiento de historias de usuraio, entre otros aspectos.
 
-* El rango de tiempo estimado para completar el proyecto es de 4 a 5 Sprints.
+<img src="./src/assets/Prototipo.png" alt="HDU">
 
-* La lógica del proyecto debe estar implementada completamente en JavaScript
-  (ES6+), HTML y CSS :smiley:. Para este proyecto **no está permitido** utilizar
-  _frameworks_ o librerías de CSS y JS.
+A medida que se iba desarrollando la aplicación se continuaron haciendo validaciones, las cuales llevaron a cambios en términos de diseño, ubicación de los botones e íconos y funcionalidades específicas para robustecer las historias de usuario.
 
-* La división y organización del trabajo debe permitir, sin excepciones, que
-  **cada integrante** del equipo practique el aprendizaje de todo lo involucrado
-  en **cada historia**. _No se dividan el trabajo como en una fábrica._
-  - ¿Hasta acá has avanzado en tus proyectos con cierta fluidez y sin mayores
-    problemas? Sé generosa con tus compañeras, permíteles aprender y practicar
-    sin restricciones, aunque tome un poco más de tiempo. Aproveha de
-    _coachearlas_, de hacer _pair programming_, una de las mejores maneras de
-    aprender es explicando verbalmente.
-
-  - ¿Se te está haciendo difícil y te cuesta un poco más avanzar? No te quedes
-    con las partes "fáciles" del proyecto, conversa, negocia, exige tu oportunidad
-    para practicar y aprender lo que se te hace más difícil.
-
-* Solamente pueden trabajar en una única historia por vez, no pueden avanzar a
-  la siguiente sin haber completado la anterior. La historia se completa cuando
-  se cumplen **todos** sus Criterios de Aceptación + **toda** su Definición
-  de Terminado.
-
-Para comenzar tendrás que hacer un _fork_ y _clonar_ este repositorio.
+Puede acceder al prototipo en Figma en el siguiente [Link](https://www.figma.com/proto/wgnxhHGcfCxJDsFJrFUUIy/Mobile-Prototype?type=design&node-id=2-3&t=vKeKAM2ecOGhGF6x-0&scaling=scale-down&page-id=0%3A1&starting-point-node-id=2%3A3)
 
 ## 5-Despliegue
 
-Súmate al canal de Slack
-[#project-social-network](https://claseslaboratoria.slack.com/archives/C03SE63GFJQ)
-para conversar y pedir ayuda del proyecto.
-
-### Mobile first
-
-El concepto de [_mobile first_](https://www.mediaclick.es/blog/diseno-web-responsive-design-y-la-importancia-del-mobile-first/)
-hace referencia a un proceso de diseño y desarrollo donde partimos de cómo se ve
-y cómo funciona la aplicación en un dispositivo móvil primero, y más adelante se
-ve como adaptar la aplicación a pantallas progresivamente grandes y
-características específicas del entorno desktop. Esto es en contraposición al
-modelo tradicional, donde primero se diseñaban los websites (o webapps) para
-desktop y después se trataba de _arrugar_ el diseño para que entre en pantallas
-más chicas. La clave acá es asegurarse de que desde el principio diseñan usando
-la vista _responsive_ de las herramientas de desarrollador (developer tools) del
-navegador. De esa forma, partimos de cómo se ve y comporta la aplicación en una
-pantalla y entorno móvil.
-
-### Múltiples vistas
-
-En proyectos anteriores nuestras aplicaciones habían estado compuestas de una
-sola _vista_ principal (una sóla _página_). En este proyecto se introduce la
-necesidad de tener que dividir nuestra interfaz en varias _vistas_ o _páginas_
-y ofrecer una manera de navegar entre estas vistas. Este problema se puede
-afrontar de muchas maneras: con archivos HTML independientes (cada uno con su
-URL) y links tradicionales, manteniendo estado en memoria y rederizando
-condicionalmente (sin refrescar la página), [manipulando el historial del
-navegador](https://developer.mozilla.org/es/docs/DOM/Manipulando_el_historial_del_navegador)
-con [`window.history`](https://developer.mozilla.org/es/docs/Web/API/Window/history).
-En este proyecto te invitamos a explorar opciones y decidir una opción
-de implementación.
-
-### Escritura de datos
-
-En los proyectos anteriores hemos consumido (leído) datos, pero todavía no
-habíamos escrito datos (salvar cambios, crear datos, borrar, ...). En este
-proyecto tendrás que crear (salvar) nuevos datos, así como leer, actualizar y
-modificar datos existentes. Estos datos se podrán guardar de forma remota
-usando [Firebase](https://firebase.google.com/).
-
-Para usar Firebase hay que crear un proyecto en la consola de Firebase e
-instalar la dependencia `firebase` utilizando `npm`.
-Lee [las instrucciones paso a paso aqui](https://firebase.google.com/docs/web/setup).
-
-Otras:
-
-* [Modulos: Export](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Sentencias/export)
-* [Modulos: Import](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Sentencias/import)
-* [Diseño web, responsive design y la importancia del mobile first - Media Click](https://www.mediaclick.es/blog/diseno-web-responsive-design-y-la-importancia-del-mobile-first/)
-* [Mobile First: el enfoque actual del diseño web móvil - 1and1](https://www.1and1.es/digitalguide/paginas-web/diseno-web/mobile-first-la-nueva-tendencia-del-diseno-web/)
-* [Mobile First - desarrolloweb.com](https://desarrolloweb.com/articulos/mobile-first-responsive.html)
-* [Mobile First Is NOT Mobile Only - Nielsen Norman Group](https://www.nngroup.com/articles/mobile-first-not-mobile-only/)
+aaa
