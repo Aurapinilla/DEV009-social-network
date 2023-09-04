@@ -57,8 +57,8 @@ Teniendo en cuenta la investigación y definición de los perfiles e historias d
 
 A medida que se iba desarrollando la aplicación se continuaron haciendo validaciones, las cuales llevaron a cambios en términos de diseño, ubicación de los botones e íconos y funcionalidades específicas para robustecer las historias de usuario.
 
-Puede acceder al prototipo en Figma en el siguiente [Link](https://www.figma.com/proto/wgnxhHGcfCxJDsFJrFUUIy/Mobile-Prototype?type=design&node-id=2-3&t=vKeKAM2ecOGhGF6x-0&scaling=scale-down&page-id=0%3A1&starting-point-node-id=2%3A3)
+Puede acceder al prototipo en Figma en el siguiente [Link](https://www.figma.com/proto/wgnxhHGcfCxJDsFJrFUUIy/Mobile-Prototype?type=design&node-id=2-3&t=vKeKAM2ecOGhGF6x-0&scaling=scale-down&page-id=0%3A1&starting-point-node-id=2%3A3).
 
 ## 5-Despliegue
 
-aaa
+Como último paso se hizo el despliegue de la aplicación web utilizando Firebase. Para acceder a la aplicación web haga click en el siguiente [Link](https://traveltribe-27207.web.app/).
