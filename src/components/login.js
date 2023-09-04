@@ -124,7 +124,7 @@ function login(navigateTo) {
       const emailImpt = emailInput.value;
       const passCode = passwordInput.value;
 
-      handleLogin(emailImpt, passCode, navigateTo); // Llama a handleLogin
+      handleLogin(emailImpt, passCode, navigateTo);
     }
   });
 
