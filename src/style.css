@@ -453,7 +453,7 @@ body {
     }
 
     .icons {
-        font-size: 30px;
+        font-size: 25px;
     }
     .signup-title {
         font-size: 28px;
@@ -496,13 +496,13 @@ body {
     }
 
     .nameU {
-        margin-top: 20px;
+        margin-top: 0px;
     }
     .login-form,
     .signup-form {
-        margin-left: 700px;
-        margin-right: 700px;
-        gap: 20px;
+        margin-left: 400px;
+        margin-right: 400px;
+        gap: 16px;
     }
 
     .back-arrow {
@@ -510,13 +510,12 @@ body {
     }
 
     .header-login {
-        margin-top: 100px;
+        margin-top: 40px;
     }
 
     .signUp-Btns {
-        gap: 20px;
-        margin-top: 20px;
-        margin-bottom: 10px;
+        gap: 8px;
+        margin-top: 10px;
     }
 
     .upperMenu {
@@ -541,8 +540,16 @@ body {
         gap: 60px;
     }
 
+    .search-bar input,
+    .search-bar {
+        font-size: 15px;
+    }
+
+    .upper-section {
+        gap: 5px;
+    }
     .post-icons {
-        font-size: 25px;
+        font-size: 20px;
     }
 
     .post {
@@ -553,6 +560,14 @@ body {
     .newpost-form {
         padding-left: 400px;
         padding-right: 400px;
+        background-color: #FFFFFF;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .newpost-upload-btn {
+        margin-top: 5px;
+        margin-bottom: 20px;
     }
     .post-content {
         height: 400px;
@@ -574,7 +589,7 @@ body {
 
     .main-container h2,
     .post-section h2 {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .main-container input {
@@ -588,10 +603,5 @@ body {
         width: 220px;
         height: 40px;
         font-size: 16px;
-    }
-
-    .edit-post-form {
-        display: flex;
-        flex-direction: column;
     }
 }
