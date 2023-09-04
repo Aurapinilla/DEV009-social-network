@@ -448,12 +448,12 @@ body {
 /*Desktop*/
 @media (min-width: 1024px) {
     .logo {
-        width: 510px;
-        margin-top:200px;
+        width: 400px;
+        margin-top:100px;
     }
 
     .icons {
-        font-size: 40px;
+        font-size: 30px;
     }
     .signup-title {
         font-size: 28px;
@@ -461,12 +461,12 @@ body {
 
     .home-content .mess1 {
         font-size: 30px;
-        margin-top: 60px;
+        margin-top: 30px;
     }
 
     .home-content .mess2 {
         font-size: 25px;
-        margin-top: 140px;
+        margin-top: 80px;
 
     }
 
@@ -477,7 +477,7 @@ body {
     .login-btn,
     .loginBtn,
     .signupBtn {
-        font-size: 17px;
+        font-size: 15px;
     }
 
     .sign-upDiv {
@@ -500,8 +500,8 @@ body {
     }
     .login-form,
     .signup-form {
-        margin-left: 1000px;
-        margin-right: 1000px;
+        margin-left: 700px;
+        margin-right: 700px;
         gap: 20px;
     }
 
@@ -510,7 +510,7 @@ body {
     }
 
     .header-login {
-        margin-top: 180px;
+        margin-top: 100px;
     }
 
     .signUp-Btns {
@@ -520,20 +520,20 @@ body {
     }
 
     .upperMenu {
-        height: 160px;
+        height: 90px;
         align-items: center;
         padding-left: 50px;
         padding-right: 50px;
     }
 
     .bottom-menu {
-        height: 150px;
+        height: 100px;
         padding-left: 90px;
         padding-right: 90px;
     }
 
     .logo-menu {
-        width: 400px;
+        width: 250px;
         margin-bottom: 10px;
     }
 
@@ -551,7 +551,6 @@ body {
     }
 
     .newpost-form {
-        margin-top: 40px;
         padding-left: 400px;
         padding-right: 400px;
     }
@@ -564,7 +563,7 @@ body {
     }
 
     .newpost-form textarea {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .post h4,
@@ -575,7 +574,7 @@ body {
 
     .main-container h2,
     .post-section h2 {
-        font-size: 28px;
+        font-size: 20px;
     }
 
     .main-container input {
@@ -588,7 +587,7 @@ body {
     .googleBtn {
         width: 220px;
         height: 40px;
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .edit-post-form {
