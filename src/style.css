@@ -156,20 +156,8 @@ body {
 }
 
 .login-btn {
- /*   padding: 2px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 800;
-    font-size: 3.5vw; */
     color: #2F4554;
     background-color: #FFFFFF;
-   /* width: 180px;
-    max-width: 40vw;
-    height: 35px;
-    max-height: 35px;
-    border-radius: 8px;
-    border-width: 1px;
-    margin-top: 10px;
-    margin-bottom: 0px; */
 }
 
 .newpost-upload-btn,

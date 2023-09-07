@@ -28,7 +28,7 @@ describe('login.js', () => {
   describe('showLogMessage', () => {
     it('should set message in messageContainer', () => {
       const message = 'Test message';
-      showLogMessage(message); // Utiliza la función importada de login.js
+      showLogMessage(message);
       const messageContainer = document.getElementById('messageContainerl');
       expect(messageContainer.innerText).toBe(message);
     });
